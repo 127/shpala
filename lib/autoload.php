@@ -9,7 +9,7 @@ function __autoload($class_name) {
             '/app/views/',
 			'/config/',
 			'/config/environment/',
-			'/lib/doorz'	
+			'/lib/doorz/'	
         );
         
         //for each directory
@@ -18,9 +18,11 @@ function __autoload($class_name) {
 			$class_name = "{$dir}{$ds}".preg_replace(
 					'/(^|[a-z])([A-Z])/e',
 					'strtolower(strlen("\\1") ? "\\1_\\2" : "\\2")', $class_name);// .".php";
-            if(file_exists($GLOBALS['APP']['homedir'].$directory.$class_name. '.php'))
+			$f = $GLOBALS['APP']['homedir'].$directory.$class_name. '.php';
+			
+            if(file_exists($f))
             {
-                require_once($GLOBALS['APP']['homedir'].$directory.$class_name. '.php');
+                require_once($f);
                 return;
             }            
         }

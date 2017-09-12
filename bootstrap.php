@@ -28,5 +28,5 @@ $GLOBALS['APP']['DB'] = $db[$GLOBALS['APP']['environment']];
 require_once 'lib/autoload.php';
 
 $a = new AppController();
-
+// $b = new BaseController();
 ?>
