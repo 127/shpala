@@ -18,7 +18,7 @@ function __autoload($class_name) {
 			$class_name = "{$dir}{$ds}".preg_replace(
 					'/(^|[a-z])([A-Z])/e',
 					'strtolower(strlen("\\1") ? "\\1_\\2" : "\\2")', $class_name);// .".php";
-			$f = $GLOBALS['APP']['homedir'].$directory.$class_name. '.php';
+			$f = $GLOBALS['APP_DIR'].$directory.$class_name. '.php';
 			
             if(file_exists($f))
             {
