@@ -1,9 +1,20 @@
 <?php
+//TODO
+//1 get controller and action
+//2 instantiate controller, run action
+//3 get variables to view 
+//4 run render
+//5 output
 class Doorz {
-	// private $db;
+	protected $router;
+	protected $controller;
+	protected $action;
 	public function __construct() {
-		echo 'ctrt';
-		// $this->db = new PDO ("{$db['driver']}:host={$db['host']}:3306;dbname={$db['database']}", $db['username'], $db['password']);
+		$this->router = new Router();
+		$this->controller = new  $this->router->controller();
+		$action = $this->router->action;
+		$this->controller->$action();
+		// echo $this->router->controller.'Controller';
 	}
 }
 ?>
