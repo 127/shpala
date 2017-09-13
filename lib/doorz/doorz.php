@@ -1,7 +1,9 @@
 <?php
 class Doorz {
+	// private $db;
 	public function __construct() {
-		print_r($_SERVER['REQUEST_URI']);
+		echo 'ctrt';
+		// $this->db = new PDO ("{$db['driver']}:host={$db['host']}:3306;dbname={$db['database']}", $db['username'], $db['password']);
 	}
 }
 ?>

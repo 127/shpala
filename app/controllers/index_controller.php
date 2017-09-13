@@ -1,7 +1,6 @@
 <?php
-// use lib\doorz;
 
-class IndexController extends AppController {
+class IndexController extends BaseController {
 	
 	protected function init() {
 		echo 321;
