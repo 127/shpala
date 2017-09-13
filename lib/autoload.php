@@ -1,6 +1,6 @@
 <?php
 function __autoload($class_name) {
-	print_r($_APP);
+
         //class directories
         $directorys = array(
             '/app/',
@@ -15,11 +15,16 @@ function __autoload($class_name) {
         //for each directory
         foreach($directorys as $directory)
         {
-			$class_name = "{$dir}{$ds}".preg_replace(
-					'/(^|[a-z])([A-Z])/e',
-					'strtolower(strlen("\\1") ? "\\1_\\2" : "\\2")', $class_name);// .".php";
-			$f = $GLOBALS['APP_DIR'].$directory.$class_name. '.php';
+			//"{$dir}{$ds}".
 			
+			$class_name = preg_replace_callback(
+							'/(^|[a-z])([A-Z])/',
+							function($m) { 
+								return strtolower($m[1] ? $m[1]."_".$m[2] : $m[2]); 
+							},
+							$class_name
+						  );
+			$f = $GLOBALS['APP_DIR'].$directory.$class_name. '.php';
             if(file_exists($f))
             {
                 require_once($f);

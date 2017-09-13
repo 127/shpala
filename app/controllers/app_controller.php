@@ -4,7 +4,7 @@
 class AppController extends BaseController {
 	
 	protected function init() {
-		echo 'init';
+		echo 'app controller';
 	}
 	
 }
