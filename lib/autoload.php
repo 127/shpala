@@ -25,6 +25,7 @@ function __autoload($class_name) {
 							$class_name
 						  );
 			$f = $GLOBALS['APP_DIR'].$directory.$class_name. '.php';
+			// echo $f;
             if(file_exists($f))
             {
                 require_once($f);

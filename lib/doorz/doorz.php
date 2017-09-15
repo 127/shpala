@@ -1,20 +1,40 @@
 <?php
 //TODO
-//1 get controller and action
-//2 instantiate controller, run action
 //3 get variables to view 
 //4 run render
 //5 output
 class Doorz {
-	protected $router;
+	// protected $router;
 	protected $controller;
 	protected $action;
+
+	
 	public function __construct() {
-		$this->router = new Router();
-		$this->controller = new  $this->router->controller();
-		$action = $this->router->action;
+		$this->dispatch();
+
+	}
+	
+	public function dispatch() {
+
+
+		$router = new Router();
+
+		if (!class_exists($router->controller))
+			$router->error404('controller');
+
+		$db = new Database();
+		$c = $db->get_connect();
+
+
+		$this->controller = new  $router->controller($c);
+		// print_r($this->controller);
+		//
+		$action = $router->action;
+		if (!method_exists($this->controller, $action))
+			$router->error404('action');
 		$this->controller->$action();
-		// echo $this->router->controller.'Controller';
+		
+		
 	}
 }
 ?>
