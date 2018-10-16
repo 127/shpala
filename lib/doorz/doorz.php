@@ -1,15 +1,12 @@
 <?php
 //TODO
-//3 get variables to view 
-//4 run render
-//5 output
+//6 Layout
 class Doorz {
 	// protected $router;
 	// protected $controller;
 	// protected $action;
 	// protected $view;
 
-	
 	public function __construct() {
 		$this->dispatch();
 	}
@@ -33,7 +30,11 @@ class Doorz {
 
 		$controller->$action();
 		
-		$view = new BaseView($router);
+		$view = new BaseView($router->params);
+		if(count($view->errors)>0)
+			foreach ($view->errors as $k=>$v)
+				$router->error404($v);
+		
 		$view->render($controller->view);
 	}
 }
