@@ -1,6 +1,6 @@
 <?php
 //TODO
-//6 Layout
+// 7. multilang
 class Doorz {
 	// protected $router;
 	// protected $controller;
@@ -30,12 +30,10 @@ class Doorz {
 
 		$controller->$action();
 		
-		$view = new View($router->params);
+		$view = new View($router->params, $controller->view);
 		if(count($view->errors)>0)
 			foreach ($view->errors as $k=>$v)
 				$router->error404($v);
-		
-		$view->render($controller->view);
 	}
 }
 ?>
