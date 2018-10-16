@@ -30,7 +30,7 @@ class Doorz {
 
 		$controller->$action();
 		
-		$view = new BaseView($router->params);
+		$view = new View($router->params);
 		if(count($view->errors)>0)
 			foreach ($view->errors as $k=>$v)
 				$router->error404($v);
