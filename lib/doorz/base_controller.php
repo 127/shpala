@@ -3,11 +3,12 @@
 class BaseController  {
 
 	public $db;
+	public $view; //= (object)[]; //view vars
 	
-	public function __construct($db) {
+	public function __construct(&$db) {
+		$this->view = (object)[];
 		$this->set_db($db);
 		$this->call_init();
-
 	}
 	
     protected function call_init(){
@@ -16,10 +17,8 @@ class BaseController  {
         }
     }
 	
-	protected function set_db($db){
+	protected function set_db(&$db){
 		$this->db = $db;
 	}
-
-
 }
 ?>

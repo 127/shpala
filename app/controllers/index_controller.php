@@ -7,8 +7,9 @@ class IndexController extends BaseController  {
 	}
 	
 	public function IndexAction() {
-		echo 'indexAction';
-		
+		// var_dump($this->_v);
+		$this->view->title = 'indexAction';
+		// echo $this->_v->title;
 	}
 }
 ?>
