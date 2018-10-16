@@ -17,7 +17,7 @@ class Doorz {
 		$router = new Router();
 
 		if (!class_exists($router->controller))
-			$router->error404('controller');
+			$router->error404('controller"'.$router->params['controller'].'" ');
 
 		$db = new Database();
 		$c = $db->get_connect();
@@ -26,7 +26,7 @@ class Doorz {
 	
 		$action = $router->action;
 		if (!method_exists($controller, $action))
-			$router->error404('action');
+			$router->error404('action "'.$router->params['action'].'" ');
 
 		$controller->$action();
 		

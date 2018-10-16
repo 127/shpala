@@ -8,7 +8,7 @@ class View {
 	public function __construct(&$params) {
 		
 		if (!is_dir($GLOBALS['APP_DIR'].$this->path.$params['controller']))
-			 return $this->errors['controller'] = 'controller view';
+			 return $this->errors['controller'] = 'controller "'.$params['controller'].'" view';
 		
 		$this->action_file = $GLOBALS['APP_DIR']
 								.$this->path
@@ -18,7 +18,7 @@ class View {
 								.$this->extension;
 
 		if (!file_exists($this->action_file)) 
-			return $this->errors['action'] = 'action view';
+			return $this->errors['action'] = 'action "'.$params['action'].'"  view';
 	}
 	
 	public function render(&$_v) {
