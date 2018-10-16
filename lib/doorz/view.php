@@ -33,6 +33,10 @@ class View {
 	public function renderAction() {
 		require_once $this->action_file;
 	}
+	
+	public function renderPartial($file, $vars) {
+		require_once $file;
+	}
 }
 	
 ?>
