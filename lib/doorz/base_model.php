@@ -2,14 +2,16 @@
 // TODO singletone
 // TODO CRUD methods
 class BaseModel {
-	public static $_db;
+	public static $_db_di;
+	protected $_db;
 	protected $postfix = 'Model';
 	protected $table;
 	protected $colummns = [];
 	
 	public function __construct() {
+		$this->_db = self::$_db_di;
 		$this->table = strtolower(substr(get_class($this), 0, -(strlen($this->postfix)))).'s';
-		foreach (self::$_db->query('DESCRIBE '.$this->table)  as $row) {
+		foreach ($this->_db->query('DESCRIBE '.$this->table)  as $row) {
 			$p = $row['Field'];
 			array_push($this->colummns, $p);
 			$this->$p = null;
@@ -24,11 +26,11 @@ class BaseModel {
     }
 	
 	protected function set_db(&$db){
-		self::$_db = $db;
+		$this->_db = $db;
 	}
 	
 	protected function get_db(){
-		return self::$_db;
+		return $this->_db;
 	}
 	
 	protected function save(){
