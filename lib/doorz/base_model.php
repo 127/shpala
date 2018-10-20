@@ -1,15 +1,19 @@
 <?php
 // TODO singletone
+// TODO CRUD methods
 class BaseModel {
 	public static $_db;
 	protected $postfix = 'Model';
 	protected $table;
+	protected $colummns = [];
 	
 	public function __construct() {
 		$this->table = strtolower(substr(get_class($this), 0, -(strlen($this->postfix)))).'s';
-		// $This->getAllProperties();
-		// echo $this->table;
-		// echo 'Parent class: ' . get_class() . "\n" . 'Child class: ' . get_class($this);
+		foreach (self::$_db->query('DESCRIBE '.$this->table)  as $row) {
+			$p = $row['Field'];
+			array_push($this->colummns, $p);
+			$this->$p = null;
+		}
 		$this->call_init();
 	}
 	
@@ -40,6 +44,14 @@ class BaseModel {
 	}
 	
 	protected function create(){
+
+	}
+	
+	protected function all(){
+
+	}
+	
+	protected function find($id){
 
 	}
 }
