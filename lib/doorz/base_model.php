@@ -25,36 +25,40 @@ class BaseModel {
         }
     }
 	
-	protected function set_db(&$db){
+	public function set_db(&$db){
 		$this->_db = $db;
 	}
 	
-	protected function get_db(){
+	public function get_db(){
 		return $this->_db;
 	}
 	
-	protected function save(){
+	public function save(){
 
 	}
 	
-	protected function update(){
+	public function update(){
 
 	}
 	
-	protected function delete(){
+	public function delete(){
 
 	}
 	
-	protected function create(){
+	public function create(){
 
 	}
 	
-	protected function all(){
-
+	public function all($where=false){
+		return $this->_db->query('SELECT * FROM '.$this->table.' '.$where);
 	}
 	
-	protected function find($id){
-
+	public function count($where=false){
+		return $this->_db->query('SELECT COUNT(*) FROM '.$this->table.' '.$where)->fetchColumn();
+	}
+	
+	public function find(int $id, $where=false){
+		return $this->_db->query('SELECT * FROM '.$this->table.' WHERE id='.$id.' '.$where);
 	}
 }
 	

@@ -1,6 +1,6 @@
 <?php
 
-class ArticleController { //extends BaseController 
+class ArticlesController { //extends BaseController 
 	
 	
 	// protected function init() {
@@ -8,11 +8,10 @@ class ArticleController { //extends BaseController
 	// 	print_r($this->db);
 	// }
 	
-	// public function IndexAction() {
-	// 	echo 'indexAction test';
-	// }
+	
 	function IndexAction(){
 		$a = new ArticleModel();
+		print_r($a->count());
 	}
 }
 ?>
