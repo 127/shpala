@@ -1,0 +1,4 @@
+/log/*
+/tmp/cache/*
+!/log/.keep
+!/tmp/cache/.keep
