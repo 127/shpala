@@ -2,7 +2,7 @@
 
 class BaseController  {
 
-	public $db;
+	public $_db;
 	public $view; //= (object)[]; //view vars
 	
 	public function __construct(&$db) {
@@ -18,7 +18,7 @@ class BaseController  {
     }
 	
 	protected function set_db(&$db){
-		$this->db = $db;
+		$this->db = $_db;
 	}
 }
 ?>

@@ -13,7 +13,6 @@ class Doorz {
 	
 	public function dispatch() {
 
-
 		$router = new Router();
 
 		if (!class_exists($router->controller))
@@ -23,6 +22,7 @@ class Doorz {
 		$c = $db->get_connect();
 
 		$controller = new  $router->controller($c);
+		BaseModel::$_db_di = $c;
 	
 		$action = $router->action;
 		if (!method_exists($controller, $action))

@@ -1,15 +1,65 @@
 <?php
 // TODO singletone
+// TODO CRUD methods
 class BaseModel {
-	protected $db;
+	public static $_db_di;
+	protected $_db;
+	protected $postfix = 'Model';
+	protected $table;
+	protected $colummns = [];
 	
 	public function __construct() {
-		// $this->init_db();
+		$this->_db = self::$_db_di;
+		$this->table = strtolower(substr(get_class($this), 0, -(strlen($this->postfix)))).'s';
+		foreach ($this->_db->query('DESCRIBE '.$this->table)  as $row) {
+			$p = $row['Field'];
+			array_push($this->colummns, $p);
+			$this->$p = null;
+		}
+		$this->call_init();
 	}
-	//
-	// protected function init_db() {
-	// 	$this->db = new PDO ("{$GLOBALS['DB']['driver']}:host={$GLOBALS['DB']['host']}:3306;dbname={$GLOBALS['DB']['database']}", $GLOBALS['DB']['username'], $GLOBALS['DB']['password']);
-	// }
+	
+    protected function call_init(){
+        if(method_exists($this, 'init')){
+            $this->init();
+        }
+    }
+	
+	public function set_db(&$db){
+		$this->_db = $db;
+	}
+	
+	public function get_db(){
+		return $this->_db;
+	}
+	
+	public function save(){
+
+	}
+	
+	public function update(){
+
+	}
+	
+	public function delete(){
+
+	}
+	
+	public function create(){
+
+	}
+	
+	public function all($where=false){
+		return $this->_db->query('SELECT * FROM '.$this->table.' '.$where);
+	}
+	
+	public function count($where=false){
+		return $this->_db->query('SELECT COUNT(*) FROM '.$this->table.' '.$where)->fetchColumn();
+	}
+	
+	public function find(int $id, $where=false){
+		return $this->_db->query('SELECT * FROM '.$this->table.' WHERE id='.$id.' '.$where);
+	}
 }
 	
 ?>
