@@ -9,7 +9,7 @@ function __autoload($class_name) {
             '/app/views/',
 			'/config/',
 			'/config/environment/',
-			'/lib/doorz/'	
+			'/lib/shpala/'	
         );
         
         //for each directory

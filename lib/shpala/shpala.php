@@ -1,7 +1,7 @@
 <?php
 //TODO
 // 7. multilang
-class Doorz {
+class Shpala {
 	// protected $router;
 	// protected $controller;
 	// protected $action;
