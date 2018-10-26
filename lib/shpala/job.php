@@ -1,5 +1,5 @@
 <?
-class BaseJob {
+class Job {
 	protected $_jobs = [];
 	protected $_db;
 	protected $_intval = 3600*1; 	 //1 hour default 
