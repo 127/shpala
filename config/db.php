@@ -3,7 +3,7 @@ return array(
 	'development' => array(
 		'driver' => 'mysql',
 		'host' => 'localhost',
-		'username' => 'root',
+		'username' => '',
 		'password' => '',
 		'database' => 'development_shpala'
 	),

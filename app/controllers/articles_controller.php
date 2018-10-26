@@ -1,6 +1,6 @@
 <?php
 
-class ArticlesController { //extends BaseController 
+class ArticlesController extends BaseController { //extends BaseController 
 	
 	
 	// protected function init() {
@@ -10,8 +10,12 @@ class ArticlesController { //extends BaseController
 	
 	
 	function IndexAction(){
-		$a = new ArticleModel();
+		$articles = (new ArticleModel())->all();
 		$this->view['title'] = 'ArticlesController->IndexAction';
+		foreach($articles as $article ){
+			$this->view['articles'] .= '';
+		}
+		
 	}
 }
 ?>

@@ -17,6 +17,7 @@ class BaseModel {
 			$this->$p = null;
 		}
 		$this->call_init();
+		return $this;
 	}
 	
     protected function call_init(){
@@ -50,7 +51,7 @@ class BaseModel {
 	}
 	
 	public function all($where=false){
-		return $this->_db->query('SELECT * FROM '.$this->table.' '.$where);
+		return $this->_db->query('SELECT * FROM '.$this->table.' '.$where)->fetchAll();
 	}
 	
 	public function count($where=false){
@@ -58,7 +59,7 @@ class BaseModel {
 	}
 	
 	public function find(int $id, $where=false){
-		return $this->_db->query('SELECT * FROM '.$this->table.' WHERE id='.$id.' '.$where);
+		return $this->_db->query('SELECT * FROM '.$this->table.' WHERE id='.$id.' '.$where)->fetchAll();
 	}
 }
 	

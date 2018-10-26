@@ -2,3 +2,5 @@
 /tmp/cache/*
 !/log/.keep
 !/tmp/cache/.keep
+!/tmp/seeds/.keep
+!/tmp/jobs/.keep
