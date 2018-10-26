@@ -38,7 +38,7 @@ class Shpala {
 				$router->error404($v);
 		
 		//=========JOBS============//
-		new Job($c);
+		new BaseJob($c);
 
 	}
 }

@@ -3,8 +3,8 @@ return array(
 	'development' => array(
 		'driver' => 'mysql',
 		'host' => 'localhost',
-		'username' => 'hrdmn',
-		'password' => 'qwerty127',
+		'username' => '',
+		'password' => '',
 		'database' => 'development_shpala'
 	),
 	'production' => array(
