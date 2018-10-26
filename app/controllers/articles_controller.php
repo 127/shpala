@@ -11,7 +11,7 @@ class ArticlesController { //extends BaseController
 	
 	function IndexAction(){
 		$a = new ArticleModel();
-		print_r($a->count());
+		$this->view['title'] = 'ArticlesController->IndexAction';
 	}
 }
 ?>

@@ -4,8 +4,9 @@ class View {
 	protected $extension = '.phtml';
 	protected $action_file; 
 	protected $layout_file = 'layouts/application.phtml';
-	public $errors = [];
+	protected $view;
 	protected $_v;
+	public 	  $errors = [];
 	
 	public function __construct(&$params, &$_v) {
 		
@@ -25,12 +26,16 @@ class View {
 		$this->layout_file = $GLOBALS['APP_DIR'].$this->path.$this->layout_file;
 		if (!file_exists($this->layout_file)) 
 			return $this->errors['layout'] = 'layout file';
-		
-		$this->_v = $_v;
+		//shortcuts
+		$this->_v = &$_v;
+		$this->view = &$_v;
 		require_once $this->layout_file;
 	}
 	
 	public function renderAction() {
+		//reverse shortcut	
+		$_v = &$this->_v;
+		$view = &$this->_v;
 		require_once $this->action_file;
 	}
 	
