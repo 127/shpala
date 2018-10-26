@@ -3,10 +3,10 @@
 spl_autoload_register(function($class_name){
 	//autoload classes from directories
 	$dirs = array(
-		'/app/',
 		'/app/controllers/',
 		'/app/models/',
 		'/app/views/',
+		'/app/jobs/',
 		'/config/',
 		'/config/environment/',
 		'/lib/shpala/'	
@@ -19,11 +19,9 @@ spl_autoload_register(function($class_name){
 							return strtolower($m[1] ? $m[1]."_".$m[2] : $m[2]); 
 						},
 						$class_name);
+						
 		$f = $GLOBALS['APP_DIR'].$dir.$class_name. '.php';
-		if(file_exists($f)){
-			require_once($f);
-			return;
-		}            
+		if(file_exists($f)) require_once($f);
 	}
 });
 ?>

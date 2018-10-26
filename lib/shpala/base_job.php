@@ -1,24 +1,27 @@
 <?
 class BaseJob {
-	 //1 hour default 
-	protected $intval = 3600*1;
+	protected $_jobs = [];
+	protected $_db;
+	protected $_intval = 3600*1; 	 //1 hour default 
 	
 	public function __construct(&$db) {
-		$f = $GLOBALS['APP_DIR'].'/tmp/jobs/.timer';
-
-		if(file_exists($f)){ 
-			if( (time()-filectime($f)) > $intval){
-				touch($f) or die('touch timer failed');
-				$this->call_init();
-			}
-		} else {
-			touch($f) or die('touch timer failed');
-		}
+		$this->_db = &$db;
+		// $f = $GLOBALS['APP_DIR'].'/tmp/jobs/.timer';
+		// if(file_exists($f)){
+		// 	if( (time()-filectime($f)) > $this->intval){
+		// 		touch($f) or die('touch timer failed');
+		// 		// $this->call_init();
+		// 		//TODO GET ALL JOBS classes and runf all of
+		// 	}
+		// } else {
+		// 	touch($f) or die('touch timer failed');
+		// }
+		return $this;
 	}
 	
-    protected function call_init(){
-        if(method_exists($this, 'init')){
-            $this->init();
+    protected function call_init($class){
+        if(method_exists($class, 'init')){
+            $class->init();
         }
     }
 	

@@ -7,8 +7,9 @@ class BaseController  {
 	
 	public function __construct(&$db) {
 		$this->view = [];
-		$this->set_db($db);
+		$this->_db  = $db;
 		$this->call_init();
+		return $this;
 	}
 	
     protected function call_init(){

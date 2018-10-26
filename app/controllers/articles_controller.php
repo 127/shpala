@@ -11,11 +11,10 @@ class ArticlesController extends BaseController { //extends BaseController
 	
 	function IndexAction(){
 		$articles = (new ArticleModel())->all();
-		$this->view['title'] = 'ArticlesController->IndexAction';
 		foreach($articles as $article ){
 			$this->view['articles'] .= '';
 		}
-		
+		$this->view['title'] = 'ArticlesController->IndexAction';
 	}
 }
 ?>
