@@ -1,4 +1,4 @@
-# Shpala MVC
+# Shpala MVC engine
 
 ## Requirements
 
