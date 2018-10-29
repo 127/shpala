@@ -8,12 +8,17 @@ class JobPopulate extends BaseJob {
 		foreach ($this->_seeds as $f){
 			$ff = $this->_dir.'/'.$f;
 			$seed = json_decode(file_get_contents($ff));
-			$title_escaped 	 = mysqli_real_escape_string($this->_db, $seed->title);		
-			$content_escaped = mysqli_real_escape_string($this->_db, $seed->content);		
-			$url_escaped 	 = mysqli_real_escape_string($this->_db, $seed->uuid);
-			$this->_db->query('INSERT INTO articles (uuid, title, keywords, author, source, preview, body) VALUES ("'.$seed->id.'", "'.$seed->title.'", "'.$seed->keywords.'", "'.$seed->author.'", "'.$url_escaped.'", "'.$content_escaped.'", "'.$content_escaped.'")');
-			// print_r(array_keys(get_object_vars($obj)));
-			//unlink($ff) or die('failed to unlink'.$ff."\n");
+			$stmt =  $this->_db->prepare('INSERT IGNORE INTO articles (url, uuid, title, keywords, author, source, preview, body) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+			$stmt->execute([$seed->url, 
+							$seed->uuid, 
+							$seed->title,
+							$seed->keywords,
+							$seed->author,
+							$seed->uuid,
+							$seed->preview,
+							$seed->body
+						   ]); // or die(print_r($stmt->errorInfo())); 
+			unlink($ff) or die('failed to unlink'.$ff."\n");
 		}
 		// print_r($this->_seeds);
 	}

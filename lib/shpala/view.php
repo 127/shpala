@@ -34,8 +34,8 @@ class View {
 	
 	public function renderAction() {
 		//reverse shortcut	
-		$_v = &$this->_v;
-		$view = &$this->_v;
+		// $_v = &$this->_v;
+		// $view = &$this->_v;
 		require_once $this->action_file;
 	}
 	
