@@ -1,0 +1,5 @@
+#!/usr/bin/env php
+<?php
+echo "here be some moooooore awesome shit! \n";
+var_dump($argv);
+?>
