@@ -11,15 +11,28 @@ require_once $GLOBALS['APP_DIR'].'/lib/autoload.php';
 if(isset($argv[1]))
 	$action = $argv[1];
 
+$h = $f = $GLOBALS['TASKS_DIR'].'task_help.php';
 if (!isset($action)){
- 	return require_once $GLOBALS['TASKS_DIR'].'task_help.php';
+	if(file_exists($h))
+		require_once $h;
 } else {
-	//redo
+	//TODO refactoring
 	if(preg_match("/db:/", $action) == 1) {
-		$db = new Database();
-		require_once $GLOBALS['TASKS_DIR'].str_replace(':', '/task_', $action).'.php';
+		$f = $GLOBALS['TASKS_DIR'].str_replace(':', '/task_', $action).'.php';
+		if(file_exists($f)){
+			$db = new Database();
+			require_once $f;
+		} else {
+			if(file_exists($h))
+				require_once $h;
+		}
 	} else {
-		require_once $GLOBALS['TASKS_DIR'].'task_'.$action.'.php';
+		$f = $GLOBALS['TASKS_DIR'].'task_'.$action.'.php';
+		if(file_exists($f))
+			require_once $f;
+	    else 
+			if(file_exists($h))
+				require_once $h;
 	}
 }
 ?>
