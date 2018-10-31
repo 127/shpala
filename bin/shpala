@@ -4,55 +4,20 @@ if (version_compare(PHP_VERSION, '5.6.30', '<')) { die ('Minimal requirements: P
 date_default_timezone_set('Europe/Moscow');
 $GLOBALS['APP_ENV'] = (false === getenv('APP_ENV') ? 'development' : getenv('APP_ENV') );
 $GLOBALS['APP_DIR'] = realpath(__DIR__.'/../');
+$GLOBALS['TASKS_DIR'] = $GLOBALS['APP_DIR'].'/lib/tasks/';
 require_once $GLOBALS['APP_DIR'].'/lib/autoload.php';
 
-//
-// if(isset($argv[1]))
-// 	$action = $argv[1];
-//
-// if (!isset($action)){
-// 	echo 'The most common shpala commands are:
-// 	server       Start the Shpala server (short-cut alias: "s")
-// All commands can be run with -h (or --help) for more information.
-// In addition to those commands, there are:
-// 	db:create
-// 	db:drop
-// 	db:seed
-// 	db:setup
-// 	db:version
-// '."\n";
-// 	return;
-// } else {
-// 	if(preg_match("/db:/", $action) == 1) {
-// 		$db = new Database();
-// 		$connect = $db->get_connect();
-// 	}
-// }
 
-// switch ($action) {
-//     case 'server':
-// 	case 's':
-// 		echo "Running server on localhost:8000\n";
-// 		system('cd ./public && php -S localhost:8000');
-// 		break;
-// 	case 'version':
-// 		echo system("git describe --exact-match --tags $(git log -n1 --pretty='%h')");
-// 		break;
-// 	case 'db:create':
-//
-// 		break;
-// 	case 'db:drop':
-//
-// 		break;
-//     case 'db:seed':
-//
-// 		break;
-// 	case 'db:setup':
-// 		print_r($connect);
-// 		break;
-//     case 'db:version':
-//
-// 		break;
-//
-// }
+if(isset($argv[1]))
+	$action = $argv[1];
+
+if (!isset($action)){
+ 	return require_once $GLOBALS['TASKS_DIR'].'task_help.php';
+} else {
+	if(preg_match("/db:/", $action) == 1) {
+		$db = new Database();
+		$connect = $db->get_connect();
+	}
+	require_once $GLOBALS['TASKS_DIR'].'task_'.$action.'.php';
+}
 ?>
