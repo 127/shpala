@@ -1,4 +1,5 @@
 <?php
+// TODO total refactor this class
 class Database {
 	
 	public  $_connect;
