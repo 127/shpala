@@ -2,29 +2,46 @@
 class Database {
 	
 	private $_connect;
+	private $_config;
+	private $_dbname;
 	private $_error = 'Cannot connect to the database: ';
 	
 	public function __construct () {
 		$db = require_once $GLOBALS['APP_DIR'].'/config/db.php';
-		$db = $db[$GLOBALS['APP_ENV']];
-		$this->_connect = $this->set_connect($db);
+		$this->_config = $db[$GLOBALS['APP_ENV']];
+		$this->set_connect($this->_config);
 		return $this;
 	}
 	
-	public function set_connect($db, $interface = 'pdo'){
+	public function set_connect(&$db, $interface = 'pdo'){
 		if ($interface=='mysqli') {
-			return mysqli_connect(
+			$this->_connect = mysqli_connect(
 					$db['host'].':'.$db['port'], 
 					$db['username'], 
 					$db['password'],
 					$db['database']
 				   ) or die($this->_error . mysqli_error());
 		} else {
-			return new PDO ("{$db['driver']}:host={$db['host']}:{$db['port']};dbname={$db['database']}", $db['username'], $db['password']);
+			//;dbname={$db['database']}
+			$this->_connect = new PDO ("{$db['driver']}:host={$db['host']}:{$db['port']}", $db['username'], $db['password']);
 		}
 	}
 	
+	public function set_db($db = false){
+		if ($db == false)  
+			$db = $this->_config['database'];
+			
+		$this->_connect->exec("use {$db}");
+		$this->_dbname = $db;
+	}
+	
+	public function get_db(){
+		return $this->_dbname;
+	}
+	
 	public function get_connect (){
+		if($this->_dbname==false)
+			$this->set_db();
 		return $this->_connect;
 	}
 }

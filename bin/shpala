@@ -14,10 +14,12 @@ if(isset($argv[1]))
 if (!isset($action)){
  	return require_once $GLOBALS['TASKS_DIR'].'task_help.php';
 } else {
+	//redo
 	if(preg_match("/db:/", $action) == 1) {
 		$db = new Database();
-		$connect = $db->get_connect();
+		require_once $GLOBALS['TASKS_DIR'].str_replace(':', '/task_', $action).'.php';
+	} else {
+		require_once $GLOBALS['TASKS_DIR'].'task_'.$action.'.php';
 	}
-	require_once $GLOBALS['TASKS_DIR'].'task_'.$action.'.php';
 }
 ?>

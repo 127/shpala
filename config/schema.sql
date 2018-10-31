@@ -1,5 +1,4 @@
-DROP DATABASE IF EXISTS development_shpala;
-CREATE DATABASE development_shpala CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 
 CREATE TABLE IF NOT EXISTS articles (
 	id INT NOT NULL AUTO_INCREMENT,
