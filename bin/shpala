@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-//TODO total refactoring
+//TODO total refactoring of this terrible shit
 if (version_compare(PHP_VERSION, '5.6.30', '<')) { die ('Minimal requirements: PHP 5.6.3'); }
 date_default_timezone_set('Europe/Moscow');
 $GLOBALS['APP_ENV'] = (false === getenv('APP_ENV') ? 'development' : getenv('APP_ENV') );
@@ -18,7 +18,9 @@ if (!isset($action)){
 		require_once $h;
 } else {
 	if(preg_match("/db:/", $action) == 1) {
-		$f = $GLOBALS['TASKS_DIR'].str_replace(':', '/task_', $action).'.php';
+		$els = explode(':', $action);
+		$last_el = array_pop($els);
+		$f = $GLOBALS['TASKS_DIR'].implode('/', $els).'/task_'.$last_el.'.php';
 		if(file_exists($f)){
 			$db = new Database();
 			require_once $f;
