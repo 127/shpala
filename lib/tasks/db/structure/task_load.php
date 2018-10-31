@@ -1,5 +1,5 @@
 <?php
-$f = $GLOBALS['APP_DIR'].'/config/schema.sql';
+$f = $GLOBALS['APP_DIR'].'/config/structure.sql';
 if(file_exists($f)){
 	$sql = file_get_contents($f) or die("Can't open {$f}");
 	$c = $db->get_connect();
