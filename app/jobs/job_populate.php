@@ -5,6 +5,8 @@ class JobPopulate extends BaseJob {
 	protected function init() {
 		$this->_dir   = $GLOBALS['APP_DIR'].$this->_dir;
 		$this->_seeds =  array_slice(scandir($this->_dir),3);
+		if(count($this->_seeds)==0) 
+			return;
 		foreach ($this->_seeds as $f){
 			$ff = $this->_dir.'/'.$f;
 			$seed = json_decode(file_get_contents($ff));

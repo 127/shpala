@@ -7,4 +7,4 @@
 
 ## Run local server
 
-- Run server with ```php -S localhost:8000``` from ```public``` directory of the project.
+- Run server with ```bin/shpala server``` from ```public``` directory of the project.
