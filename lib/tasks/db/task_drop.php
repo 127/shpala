@@ -1,3 +1,4 @@
 <?php
-//DROP DATABASE IF EXISTS development_shpala;
+$stmnt = $db->_connect->prepare("DROP DATABASE IF EXISTS {$db->_config['database']}");
+$stmnt->execute() or die(print_r($stmnt->errorInfo()));
 ?>

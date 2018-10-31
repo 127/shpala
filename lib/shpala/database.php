@@ -1,8 +1,8 @@
 <?php
 class Database {
 	
-	private $_connect;
-	private $_config;
+	public  $_connect;
+	public  $_config;
 	private $_dbname;
 	private $_error = 'Cannot connect to the database: ';
 	
@@ -44,5 +44,6 @@ class Database {
 			$this->set_db();
 		return $this->_connect;
 	}
+
 }
 ?>
