@@ -1,4 +1,5 @@
 <?php
-$stmnt = $db->_connect->prepare("DROP DATABASE IF EXISTS {$db->_config['database']}");
+// print_r($db->get_connect());
+$stmnt = $connect->prepare("DROP DATABASE {$dbname}");
 $stmnt->execute() or die(print_r($stmnt->errorInfo()));
 ?>

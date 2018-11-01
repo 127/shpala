@@ -12,7 +12,6 @@ class Database {
 		$this->set_connect($config);
 		if($set_default_db==true)
 			$this->set_db();
-		return $this->_dbc;
 	}
 	
 	public function set_connect($config=false, $interface='pdo'){
@@ -35,15 +34,16 @@ class Database {
 		if($dbname==false)
 			$dbname = $this->_config['database'];
 		$this->_dbc->exec("use {$dbname}");
+		return $this;
 	}
 	
 	public function get_db(){
 		return $this->_dbc->query('select database()')->fetchColumn();
 	}
 	
-	// public function get_config(){
-	// 	return $this->_config;
-	// }
+	public function get_config(){
+		return $this->_config;
+	}
 	
 	public function get_connect (){
 		return $this->_dbc;
