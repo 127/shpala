@@ -4,8 +4,8 @@ return array(
 		'driver' => 'mysql',
 		'host' => 'localhost',
 		'port' => 3306,
-		'username' => 'hrdmn',
-		'password' => 'qwerty127',
+		'username' => '',
+		'password' => '',
 		'database' => 'development_shpala'
 	),
 	'production' => array(
