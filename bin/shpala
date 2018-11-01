@@ -22,7 +22,7 @@ if (!isset($action)){
 		$last_el = array_pop($els);
 		$f = $GLOBALS['TASKS_DIR'].implode('/', $els).'/task_'.$last_el.'.php';
 		if(file_exists($f)){
-			$db = new Database();
+			$db = new Database(false, false);
 			require_once $f;
 		} else {
 			if(file_exists($h))
