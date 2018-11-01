@@ -2,7 +2,9 @@
 /tmp/cache/*
 /tmp/seeds/*
 /tmp/jobs/*
+/db/migrate/*
 !/log/.keep
 !/tmp/cache/.keep
 !/tmp/seeds/.keep
 !/tmp/jobs/.keep
+!/db/migrate/.keep
