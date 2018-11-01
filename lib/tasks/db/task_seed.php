@@ -1,6 +1,3 @@
 <?php
-// $f = $GLOBALS['APP_DIR'].'conf'
-// $sql = file_get_contents('file.sql');
-// $qr = $db->exec($sql);
-
+require_once  $GLOBALS['APP_DIR'].'/config/seed.php'
 ?>
