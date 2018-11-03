@@ -1,3 +1,8 @@
+CREATE TABLE schema_migrations (
+  version varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  UNIQUE KEY `unique_schema_migrations` (`version`)
+) ENGINE=InnoDB;
+
 CREATE TABLE articles (
 	id INT NOT NULL AUTO_INCREMENT,
 	url VARCHAR(150) NOT NULL UNIQUE,
@@ -11,4 +16,24 @@ CREATE TABLE articles (
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	uuid VARCHAR(100) NOT NULL UNIQUE,
 	PRIMARY KEY (id)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=0;
+
+CREATE TABLE tags (
+	id INT NOT NULL AUTO_INCREMENT,
+	url VARCHAR(150) NOT NULL UNIQUE,
+	title VARCHAR(255) NOT NULL, 
+	description VARCHAR(255) NOT NULL,
+	keywords VARCHAR(255) NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=0;
+
+CREATE TABLE tags_articles (
+	tag_id INT NOT NULL,
+	article_id INT NOT NULL,
+    KEY `tags_articles_tag_id_fk` (`tag_id`),
+    KEY `tags_articles_article_id_fk` (`article_id`),
+    CONSTRAINT `tags_articles_tag_id_fk` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`),
+    CONSTRAINT `tags_articles_article_id_fk` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`)
+) ENGINE=InnoDB;
