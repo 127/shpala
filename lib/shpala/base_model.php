@@ -3,14 +3,17 @@
 // TODO CRUD methods
 class BaseModel {
 	public static $_db_di;
+	public static $_prefix_di;
 	protected $_db;
+	protected $prefix = '';
 	protected $postfix = 'Model';
 	protected $table;
 	protected $colummns = [];
 	
 	public function __construct() {
 		$this->_db = self::$_db_di;
-		$this->table = strtolower(substr(get_class($this), 0, -(strlen($this->postfix)))).'s';
+		$this->prefix = self::$_prefix_di;
+		$this->table = $this->prefix.strtolower(substr(get_class($this), 0, -(strlen($this->postfix)))).'s';
 		foreach ($this->_db->query('DESCRIBE '.$this->table)  as $row) {
 			$p = $row['Field'];
 			array_push($this->colummns, $p);

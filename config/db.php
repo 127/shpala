@@ -6,7 +6,8 @@ return array(
 		'port' => 3306,
 		'username' => 'developer',
 		'password' => '',
-		'database' => 'development_shpala'
+		'database' => 'development_shpala',
+		'tables_prefix' => 'shpala_'
 	),
 	'production' => array(
 		'driver' => 'mysql',
@@ -14,7 +15,8 @@ return array(
 		'port' => 3306,
 		'username' => 'root',
 		'password' => '',
-		'database' => 'production_shpala'
+		'database' => 'production_shpala',
+		'tables_prefix' => 'shpala_'
 	)
 );
 ?>

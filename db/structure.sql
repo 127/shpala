@@ -1,9 +1,9 @@
-CREATE TABLE schema_migrations (
+CREATE TABLE shpala_schema_migrations (
   version varchar(255) NOT NULL,
-  UNIQUE KEY `unique_schema_migrations` (`version`)
+  UNIQUE KEY `shpala_unique_schema_migrations` (`version`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE articles (
+CREATE TABLE shpala_articles (
 	id INT NOT NULL AUTO_INCREMENT,
 	url VARCHAR(150) NOT NULL UNIQUE,
 	keywords VARCHAR(255) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE articles (
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=0;
 
-CREATE TABLE tags (
+CREATE TABLE shpala_tags (
 	id INT NOT NULL AUTO_INCREMENT,
 	url VARCHAR(150) NOT NULL UNIQUE,
 	title VARCHAR(255) NOT NULL, 
@@ -29,11 +29,11 @@ CREATE TABLE tags (
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=0;
 
-CREATE TABLE tags_articles (
+CREATE TABLE shpala_tags_articles (
 	tag_id INT NOT NULL,
 	article_id INT NOT NULL,
-    KEY `tags_articles_tag_id_fk` (`tag_id`),
-    KEY `tags_articles_article_id_fk` (`article_id`),
-    CONSTRAINT `tags_articles_tag_id_fk` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`),
-    CONSTRAINT `tags_articles_article_id_fk` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`)
+    KEY `shpala_tags_articles_tag_id_fk` (`tag_id`),
+    KEY `shpala_tags_articles_article_id_fk` (`article_id`),
+    CONSTRAINT `shpala_tags_articles_tag_id_fk` FOREIGN KEY (`tag_id`) REFERENCES `shpala_tags` (`id`),
+    CONSTRAINT `shpala_tags_articles_article_id_fk` FOREIGN KEY (`article_id`) REFERENCES `shpala_articles` (`id`)
 ) ENGINE=InnoDB;
