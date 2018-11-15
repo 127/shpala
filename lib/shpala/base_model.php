@@ -1,5 +1,5 @@
 <?php
-// TODO singletone
+// TODO checking if table exists
 // TODO CRUD methods
 class BaseModel {
 	public static $_db_di;
