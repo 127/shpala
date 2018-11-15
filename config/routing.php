@@ -1,5 +1,5 @@
 <?php
 return [
-	'rootControllerPath' => 'articles'
+	// 'rootControllerPath' => 'some_path'
 ];
 ?>

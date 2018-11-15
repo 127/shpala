@@ -7,7 +7,7 @@ class IndexController extends BaseController  {
 	}
 
 	public function IndexAction() {
-		$this->view->title = 'indexAction';
+		$this->view['title'] = 'indexAction';
 	}
 }
 ?>
