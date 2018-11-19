@@ -7,7 +7,7 @@ class Database {
     private $_error = false;
 	// private $_error = 'Cannot connect to the database: ';
 	
-	public function __construct (&$config=false, $set_default_db=true) {
+	public function __construct ($config=false, $set_default_db=true) {
 		if($config!=false) {
 			$this->set_connect($config);
 			if($set_default_db==true)

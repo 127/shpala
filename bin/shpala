@@ -21,8 +21,12 @@ if (!isset($action)){
 		$els = explode(':', $action);
 		$last_el = array_pop($els);
 		$f = $GLOBALS['TASKS_DIR'].implode('/', $els).'/task_'.$last_el.'.php';
+		
+		
 		if(file_exists($f)){
+			$config = (require_once($GLOBALS['APP_DIR'].'/config/db.php'))[$GLOBALS['APP_ENV']];
 			$db = new Database(false, false);
+			$db->set_connect($config);
 			$connect = $db->get_connect();
 			$dbname  = ($db->get_config())['database'];
 			require_once $f;
