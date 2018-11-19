@@ -17,8 +17,6 @@ class Database {
 	
 	public function set_connect(array &$config, $interface='pdo'){
 		$this->_config = $config;
-		if(isset($config['tables_prefix']))
-			BaseModel::$_prefix_di = $config['tables_prefix'];
 		if ($interface=='mysqli') {
 			$this->_dbc = mysqli_connect($config['host'].':'.$conf['port'], $config['username'], $config['password']) or die(mysqli_error());
 		} else {

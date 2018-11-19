@@ -5,7 +5,7 @@ class Shpala {
 	protected $_i18n = [];
 	protected $_router;
 	protected $_database;
-	protected $_connect=false;
+	protected $_connect=null;
 	protected $_resources = [];
 	protected $_resource;
 
@@ -16,12 +16,17 @@ class Shpala {
 		if(isset($this->_config->config['db'])) {
 			$this->_database = new Database($this->_config->config['db']);
 			$this->_connect = $this->_database->get_connect();
+			BaseModel::$_db_di = $this->_connect;
+			if(isset($this->_config->config['tables_prefix']))
+				BaseModel::$_prefix_di = $this->_config->config['db']['tables_prefix'];
 		}
 		$this->_resource = new Resource($this->_router, $this->_connect, $this->_i18n);
-		$this->_resource->validate();
-		$this->_resource->build();
-		$this->_resource->run();
-		// print_r($this->_resource);
+		if($this->_resource->validate() == true){
+			$this->_resource->build();
+			$this->_resource->run();
+		} else {
+			//log shit here
+		}
 	}
 	
 	public function dispatch() {
