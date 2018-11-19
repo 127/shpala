@@ -1,7 +1,5 @@
 <?php
-
-class IndexController extends BaseController  {
-	
+class IndexController extends ApplicationController {
 	protected function init() {
 
 	}

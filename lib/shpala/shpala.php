@@ -6,20 +6,21 @@ class Shpala {
 	protected $_router;
 	protected $_database;
 	protected $_connect=false;
+	protected $_resources = [];
 	protected $_resource;
 
 	public function __construct() {
 		$this->_config = new Config();
+		$this->_router = new Router($this->_config->config['routes']);
 		$this->_i18n   = new i18n();
-		$this->_router = new Router();
 		if(isset($this->_config->config['db'])) {
-			$this->_database = new Database($this->_config->config['db']); 
+			$this->_database = new Database($this->_config->config['db']);
 			$this->_connect = $this->_database->get_connect();
 		}
-		$this->_resource = new Resource($this->_config, $this->_router, $this->_connect, $this->_i18n);
-		$this->_resource->build();
+		$this->_resource = new Resource($this->_router, $this->_connect, $this->_i18n);
 		$this->_resource->validate();
 		$this->_resource->run();
+		print_r($this->_resource);
 	}
 	
 	public function dispatch() {

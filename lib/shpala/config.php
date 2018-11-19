@@ -1,7 +1,7 @@
 <?php
 class Config {
 	//locale not included
-	private $_convention = 'routing|db|environment';
+	private $_convention = 'routes|db|environment';
 	protected $_dir = '/config/';
 	public $config=[];
 	
