@@ -35,6 +35,11 @@ class Resource {
 	public function run(){
 		$action = $this->_router->actionMethod;
 		$this->controller->$action();
+		
+		// $view = new View($router->params, $controller->view);
+		// if(count($view->errors)>0)
+		// 	foreach ($view->errors as $k=>$v)
+		// 		$router->error404($v);
 	}
 	
 		
