@@ -2,9 +2,9 @@
 class Resource {
 	public  $name;
 	public  $connect=null;
+	public $controller;
 	protected $_router;
 	protected $_errors=[];
-	// public $controller;
 	// public $model;
 	// public $view;
 	// public $helpers;
@@ -17,7 +17,9 @@ class Resource {
 	}
 	
 	public function build(){
-		
+		if(count($this->_errors)==0){
+			$this->controller = new $this->_router->controllerClass($this->connect);
+		}
 	}
 	
 	public function validate(){
@@ -27,10 +29,12 @@ class Resource {
 			$this->_errors['controller_class_not_exists'] = true;
 		if (!method_exists($this->_router->controllerClass, $this->_router->actionMethod))
 			$this->_errors['action_method_not_exists'] = true;
+		return (count($this->_errors)==0) ? true : false;
 	}
 	
 	public function run(){
-		echo 'run';
+		$action = $this->_router->actionMethod;
+		$this->controller->$action();
 	}
 	
 		

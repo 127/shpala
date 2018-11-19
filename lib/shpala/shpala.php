@@ -19,8 +19,9 @@ class Shpala {
 		}
 		$this->_resource = new Resource($this->_router, $this->_connect, $this->_i18n);
 		$this->_resource->validate();
+		$this->_resource->build();
 		$this->_resource->run();
-		print_r($this->_resource);
+		// print_r($this->_resource);
 	}
 	
 	public function dispatch() {
