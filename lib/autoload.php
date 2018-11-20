@@ -1,5 +1,4 @@
 <?php
-// TODO refactor from :16
 spl_autoload_register(function($class_name){
 	//autoload classes from directories
 	$dirs = array(
@@ -7,8 +6,6 @@ spl_autoload_register(function($class_name){
 		'/app/models/',
 		'/app/views/',
 		'/app/jobs/',
-		'/config/',
-		'/config/environment/',
 		'/lib/shpala/'	
 	);
         
