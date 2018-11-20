@@ -5,9 +5,7 @@ class IndexController extends ApplicationController {
 	}
 
 	public function IndexAction() {
-		echo 'index action index controller'."\n";
-		// $this->view['title'] = 'indexAction';
-		// $example = new ExampleModel(); needs existing table to be launched
+		$this->view['title'] = 'index action index controller';
 	}
 }
 ?>

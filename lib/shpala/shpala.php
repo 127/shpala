@@ -25,40 +25,9 @@ class Shpala {
 			$this->_resource->build();
 			$this->_resource->run();
 		} else {
+			die(print_r($this));
 			//log shit here
 		}
-	}
-	
-	public function dispatch() {
-		//
-		// $router = new Router();
-		//
-		// if (!class_exists($router->controller))
-		// 	$router->error404('controller"'.$router->params['controller'].'" ');
-		//
-		// $db = new Database();
-		// $c = $db->get_connect();
-		//
-		// $controller = new  $router->controller($c);
-		// BaseModel::$_db_di = $c;
-		//
-		// $action = $router->action;
-		// if (!method_exists($controller, $action))
-		// 	$router->error404('action "'.$router->params['action'].'" ');
-		//
-		// $controller->$action();
-		//
-		//
-		//
-		// $view = new View($router->params, $controller->view);
-		// if(count($view->errors)>0)
-		// 	foreach ($view->errors as $k=>$v)
-		// 		$router->error404($v);
-		//
-		// //=========JOBS============//
-		// BaseJob::$_db_di = $c;
-		// new Queue();
-
 	}
 }
 ?>

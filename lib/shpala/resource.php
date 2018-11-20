@@ -3,10 +3,12 @@ class Resource {
 	public  $name;
 	public  $connect=null;
 	public $controller;
+	public $view;
 	protected $_router;
 	protected $_errors=[];
+	protected $_tpl_layout;
+	protected $_tpl_action;
 	// public $model;
-	// public $view;
 	// public $helpers;
 	// public $jobs;
 	
@@ -17,29 +19,39 @@ class Resource {
 	}
 	
 	public function build(){
-		if(count($this->_errors)==0){
-			$this->controller = new $this->_router->controllerClass($this->connect);
-		}
+		//=========JOBS============//
+		if( $this->connect!=null)
+			BaseJob::$_db_di = $this->connect;
+		new Queue();
+		//=========APP============//
+		$this->controller = new $this->_router->controllerClass($this->connect);
+
 	}
 	
 	public function validate(){
+		$this->_tpl_layout = $GLOBALS['APP_DIR'].View::$path.View::$layout_file;
+		$this->_tpl_action = $GLOBALS['APP_DIR'].View::$path
+								.$this->_router->params['controller'].'/'
+								.$this->_router->params['action']
+								.View::$extension;
 		if(!in_array($this->name, $this->_router->resources))
 			$this->_errors['no_resource_identified'] = true;
 		if (!class_exists($this->_router->controllerClass))
 			$this->_errors['controller_class_not_exists'] = true;
 		if (!method_exists($this->_router->controllerClass, $this->_router->actionMethod))
 			$this->_errors['action_method_not_exists'] = true;
+		if(!file_exists($this->_tpl_layout))
+			$this->_errors['layout_template_not_exists'] = true;
+		if(!file_exists($this->_tpl_action)) 
+			$this->_errors['action_template_not_exists'] = true;
+			
 		return (count($this->_errors)==0) ? true : false;
 	}
 	
 	public function run(){
 		$action = $this->_router->actionMethod;
 		$this->controller->$action();
-		
-		// $view = new View($router->params, $controller->view);
-		// if(count($view->errors)>0)
-		// 	foreach ($view->errors as $k=>$v)
-		// 		$router->error404($v);
+		$this->view = new View($this->_tpl_layout, $this->_tpl_action, $this->controller->view);
 	}
 	
 		
