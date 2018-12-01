@@ -4,10 +4,12 @@ class BaseController  {
 
 	public $_db;
 	public $view; //= (object)[]; //view vars
+	public $params=null;
 	
-	public function __construct(&$db) {
+	public function __construct(&$db, &$params=null) {
 		$this->view = [];
 		$this->_db  = $db;
+		$this->params = $params;
 		$this->call_init();
 		return $this;
 	}

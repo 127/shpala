@@ -24,7 +24,7 @@ class Resource {
 			BaseJob::$_db_di = $this->connect;
 		new Queue();
 		//=========APP============//
-		$this->controller = new $this->_router->controllerClass($this->connect);
+		$this->controller = new $this->_router->controllerClass($this->connect, $this->_router->params);
 
 	}
 	
