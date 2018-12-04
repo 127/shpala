@@ -62,7 +62,7 @@ class BaseModel {
 	}
 	
 	public function find(int $id, $where=false){
-		return $this->_db->query('SELECT * FROM '.$this->table.' WHERE id='.$id.' '.$where)->fetch();
+		return $this->_db->query('SELECT * FROM '.$this->table.' WHERE id='.$id.' '.$where)->fetchAll();
 	}
 }
 	
