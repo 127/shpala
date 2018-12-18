@@ -3,9 +3,11 @@ spl_autoload_register(function($class_name){
 	//autoload classes from directories
 	$dirs = array(
 		'/app/controllers/',
+		'/app/controllers/concerns/',
 		'/app/models/',
 		'/app/views/',
 		'/app/jobs/',
+		'/app/helpers/',
 		'/lib/shpala/'	
 	);
         

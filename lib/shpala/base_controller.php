@@ -1,13 +1,22 @@
 <?php
-
 class BaseController  {
-
-	public $_db;
-	public $view; //= (object)[]; //view vars
+	public $db;
+	public $view; 
+	public $params;
+	public $resource;
+	public $i18n;
 	
-	public function __construct(&$db) {
-		$this->view = [];
-		$this->_db  = $db;
+	public function __construct(Resource &$resource) {
+		$this->resource = $resource;
+
+		//aliases
+		$this->db  		= $resource->connect;
+		$this->params 	= $resource->router->params;
+		$this->view 	= $resource->view;
+		
+		if($resource->i18n)    $this->i18n    = $resource->i18n->strings;
+		if($resource->helpers) $this->helpers = $resource->helpers;
+
 		$this->call_init();
 		return $this;
 	}
@@ -19,7 +28,7 @@ class BaseController  {
     }
 	
 	protected function set_db(&$db){
-		$this->_db = $db;
+		$this->db = $db;
 	}
 }
 ?>

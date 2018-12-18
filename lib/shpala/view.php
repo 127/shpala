@@ -1,33 +1,41 @@
 <?php
 class View {
-	public $errors = [];
+	public $resource;
 	public static $path = '/app/views/';
 	public static $extension = '.phtml';
 	public static $layout_file = 'layouts/application.phtml';
-	protected $layout_path;
-	protected $action_path; 
+	public static $public_path='/public/'; 
 	protected $view;
-	protected $_v;
+	protected $_layout_path;
+	protected $_action_path; 
 	
-	public function __construct(string $layout_path, string $action_path, array &$_v) {	
-		$this->layout_path = $layout_path;
-		$this->action_path = $action_path;
-
-		//shortcuts
-		$this->_v = &$_v;
-		$this->view = &$_v;
-		require_once $this->layout_path;
+	public function __construct(Resource &$resource) {	
+		$this->resource = $resource;
+		$this->_layout_path = $resource->tpl_layout;
+		$this->_action_path = $resource->tpl_action;
+		$this->view = $resource->controller->view;
+		if(isset($resource->i18n)) $this->i18n = $resource->i18n;
+		//shortcut
+		$_v=$this->view;
+		$_t=$this->i18n;
+		require_once $this->_layout_path;
 	}
 	
 	public function renderAction() {
-		//reverse shortcut	
-		// $_v = &$this->_v;
-		// $view = &$this->_v;
-		require_once $this->action_path;
+		//shortcut
+		$_v=$this->view;
+		$_t=$this->i18n;
+		require_once $this->_action_path;
 	}
 	
 	public function renderPartial($file, $vars) {
 		require_once $file;
+	}
+	
+	public static function renderStatic($file, $header=false){
+		if($header!=false) Router::header($header);
+		require_once $GLOBALS['APP_DIR'].self::$public_path.$file;
+		exit;
 	}
 }
 	
