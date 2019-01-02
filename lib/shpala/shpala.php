@@ -37,16 +37,28 @@ class Shpala {
 										$this->_i18n, 
 										$this->_helpers);
 										
-		if($this->_resource->validate() == true){
-			$this->_resource->build();
-			$this->_resource->run();
-		} else {
-			if($GLOBALS['APP_ENV']!='production') {
-				print_r($this->_resource);
+		if($this->_resource->validate_essentials() == false)
+			return $this->_errors_dispatcher();
+		
+		$this->_resource->build();
+		$this->_resource->run();
+		
+		if($this->_resource->render_layout == true) {
+			if($this->_resource->validate_tpls() == false){
+				$this->_errors_dispatcher();
 			} else {
-				View::renderStatic('404.html', 404);
+				$this->_resource->output();
 			}
 		}
+
+	}
+	
+	private function _errors_dispatcher(){
+		if($GLOBALS['APP_ENV']!='production') {
+			print_r($this->_resource->errors);
+		} else {
+			View::render_static('404.html', 404);
+		}	
 	}
 	
 }

@@ -54,15 +54,18 @@ class BaseModel {
 	}
 	
 	public function all($where=false){
-		return $this->_db->query('SELECT * FROM '.$this->table.' '.$where)->fetchAll();
+		$r = $this->_db->query('SELECT * FROM '.$this->table.' '.$where);
+		return $r ? $r->fetchAll() : [];
 	}
 	
 	public function count($where=false){
-		return $this->_db->query('SELECT COUNT(*) FROM '.$this->table.' '.$where)->fetchColumn();
+		$r = $this->_db->query('SELECT COUNT(*) FROM '.$this->table.' '.$where);
+		return $r ? $r->fetchColumn() : [];
 	}
 	
 	public function find(int $id, $where=false){
-		return $this->_db->query('SELECT * FROM '.$this->table.' WHERE id='.$id.' '.$where)->fetch();
+		$r = $this->_db->query('SELECT * FROM '.$this->table.' WHERE id='.$id.' '.$where);
+		return $r ? $r->fetch() : [];
 	}
 }
 	

@@ -5,6 +5,7 @@ class BaseController  {
 	public $params;
 	public $resource;
 	public $i18n;
+	private $_render_layout = true;
 	
 	public function __construct(Resource &$resource) {
 		$this->resource = $resource;
@@ -29,6 +30,14 @@ class BaseController  {
 	
 	protected function set_db(&$db){
 		$this->db = $db;
+	}
+	
+	public function set_render_layout($flag=true){
+		$this->_render_layout = $flag;
+	}
+	
+	public function get_render_layout(){
+		return $this->_render_layout;
 	}
 }
 ?>

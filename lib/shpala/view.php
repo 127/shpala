@@ -21,18 +21,18 @@ class View {
 		require_once $this->_layout_path;
 	}
 	
-	public function renderAction() {
+	public function render_action() {
 		//shortcut
 		$_v=$this->view;
 		$_t=$this->i18n;
 		require_once $this->_action_path;
 	}
 	
-	public function renderPartial($file, $vars) {
+	public function render_partial($file, $vars) {
 		require_once $file;
 	}
 	
-	public static function renderStatic($file, $header=false){
+	public static function render_static($file, $header=false){
 		if($header!=false) Router::header($header);
 		require_once $GLOBALS['APP_DIR'].self::$public_path.$file;
 		exit;

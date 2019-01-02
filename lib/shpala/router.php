@@ -1,14 +1,14 @@
 <?php
 class Router {
-	public $controllerClass;
-	public $actionMethod;
+	public $controller_class;
+	public $action_method;
 	public $params = [];
 	public $resources;
-	protected $_rootController;
-	protected $_rootAction;
-	protected $_defaultAction = 'index';
-	protected $_controllerPostfix = 'Controller';
-	protected $_actionPostfix = 'Action';
+	protected $_root_controller;
+	protected $_root_action;
+	protected $_default_action = 'index';
+	protected $_controller_postfix = 'Controller';
+	protected $_action_postfix = 'Action';
 	
     protected static $http = array(
         100 => 'HTTP/1.1 100 Continue',
@@ -59,15 +59,15 @@ class Router {
 		$this->resources = $config['resources'];
 			
 		$_l_ = explode('#', $config['root']);
-		$this->_rootController = $_l_[0];
-		$this->_rootAction 	   = $_l_[1];
+		$this->_root_controller = $_l_[0];
+		$this->_root_action 	   = $_l_[1];
 
 		$url = explode('/', $_SERVER['REQUEST_URI']);
-		$this->params['controller'] = ($url[1]!=false) ? $url[1] : $this->_rootController;
-		$this->params['action'] = (isset($url[2]) && $url[2]!=false) ? $url[2] : $this->_defaultAction;
+		$this->params['controller'] = ($url[1]!=false) ? $url[1] : $this->_root_controller;
+		$this->params['action'] = (isset($url[2]) && $url[2]!=false) ? $url[2] : $this->_default_action;
 		
-		$this->controllerClass = ucfirst($this->params['controller']).$this->_controllerPostfix;
-		$this->actionMethod = ucfirst($this->params['action']).$this->_actionPostfix;
+		$this->controller_class = ucfirst($this->params['controller']).$this->_controller_postfix;
+		$this->action_method = ucfirst($this->params['action']).$this->_action_postfix;
 
 		if(count($url)>3){
 			$kvals = array_slice($url,3);
