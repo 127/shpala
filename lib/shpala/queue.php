@@ -17,8 +17,11 @@ class Queue {
 			if( (time()-filectime($this->_timer)) > $this->_intval){
 				touch($this->_timer) or die($this->_timer_error_message);
 				foreach ($this->_queue as $filename) {
-					 $class = $this->camelize($filename, '_', [0,-4]);
-					 new $class();
+					$f = pathinfo($filename);
+					if($f['extension'] == 'php'){
+						$class = $this->camelize($f['filename']);
+						new $class();
+					}
 				}
 			}
 		} else {
@@ -28,11 +31,8 @@ class Queue {
 	}
 	
 	
-	public function camelize($str, $delimiter='_', $substr=false){
-		$o = str_replace($delimiter, '', ucwords(strtolower($str), $delimiter));
-		if($substr)
-			$o = substr($o, $substr[0], $substr[1]);
-		return $o;
+	public function camelize($str, $delimiter='_'){
+		return str_replace($delimiter, '', ucwords(strtolower($str), $delimiter));
 	}
 		
 }
