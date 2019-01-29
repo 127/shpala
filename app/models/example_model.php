@@ -1,5 +1,5 @@
 <?php
-class ExampleModel extends BaseModel {
+class ExampleModel extends BaseRecord {
 	
 	protected function init() {
 

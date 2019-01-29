@@ -5,6 +5,7 @@ class IndexController extends ApplicationController {
 	}
 
 	public function IndexAction() {
+		$this->view['model']= new ExampleModel();
 		$this->view['title'] = 'index action index controller';
 	}
 }
