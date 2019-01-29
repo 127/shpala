@@ -15,12 +15,12 @@ class Shpala {
 		$this->_config = new Config();
 		$this->_router = new Router($this->_config->config['routes']);
 		$this->_i18n   = new i18n();
-		if(isset($this->_config->config['db'])) {
-			$this->_database = new Database($this->_config->config['db']);
+		if(isset($this->_config->config['database'])) {
+			$this->_database = new Database($this->_config->config['database']);
 			$this->_connect = $this->_database->get_connect();
 			BaseRecord::$_db_di = $this->_connect;
-			if(isset($this->_config->config['db']['tables_prefix'])) {
-				BaseRecord::$_prefix_di = $this->_config->config['db']['tables_prefix'];
+			if(isset($this->_config->config['database']['tables_prefix'])) {
+				BaseRecord::$_prefix_di = $this->_config->config['database']['tables_prefix'];
 			}
 		}
 		
