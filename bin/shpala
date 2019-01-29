@@ -24,7 +24,7 @@ if (!isset($action)){
 		
 		
 		if(file_exists($f)){
-			$config = (require_once($GLOBALS['APP_DIR'].'/config/db.php'))[$GLOBALS['APP_ENV']];
+			$config = (require_once($GLOBALS['APP_DIR'].'/config/database.php'))[$GLOBALS['APP_ENV']];
 			$db = new Database(false, false);
 			$db->set_connect($config);
 			$connect = $db->get_connect();

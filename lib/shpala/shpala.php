@@ -17,9 +17,9 @@ class Shpala {
 		if(isset($this->_config->config['db'])) {
 			$this->_database = new Database($this->_config->config['db']);
 			$this->_connect = $this->_database->get_connect();
-			BaseModel::$_db_di = $this->_connect;
+			BaseRecord::$_db_di = $this->_connect;
 			if(isset($this->_config->config['db']['tables_prefix'])) {
-				BaseModel::$_prefix_di = $this->_config->config['db']['tables_prefix'];
+				BaseRecord::$_prefix_di = $this->_config->config['db']['tables_prefix'];
 			}
 		}
 		

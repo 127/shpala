@@ -22,6 +22,7 @@ class Database {
 		} else {
 			try {
 				$this->_dbc = new PDO ("{$config['driver']}:host={$config['host']}:{$config['port']}", $config['username'], $config['password']);
+				$this->_dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				return $this->_dbc;
 			} catch (PDOException $e) {
             	die($e->getMessage());
