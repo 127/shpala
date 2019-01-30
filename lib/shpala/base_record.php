@@ -28,10 +28,16 @@ class BaseRecord {
 	private $_sql_string  = '';
 	private $_sql_binds	  = [];
 	
-	public function __construct() {
+	public function __construct(string $table=null) {
 		$this->_db = self::$_db_di;
 		$this->_prefix = self::$_prefix_di;
-		$this->_table = $this->_prefix.strtolower(substr(get_class($this), 0, -(strlen($this->_postfix)))).'s';
+		if($table==null){
+			//get_table name automatically
+			$this->_table = $this->_prefix.strtolower(substr(get_class($this), 0, -(strlen($this->_postfix)))).'s';
+		} else {
+			//set table name from consttructor param
+			$this->set_table($table);
+		}		
 		foreach ($this->_db->query('DESCRIBE '.$this->_table)  as $row) {
 			$p = $row['Field'];
 			array_push($this->_columns, $p);
@@ -55,6 +61,13 @@ class BaseRecord {
 		return $this->_db;
 	}
 	
+	public function get_table(){
+		return $this->_table;
+	}
+	
+	public function set_table(string $table, bool $autoprefix=true){
+		$this->_table = ($autoprefix==true) ? $this->_prefix.$table : $table;
+	}
 	
 	public function get_sql_string(){
 		return isset($this->_sql_string_debug) ? $this->_sql_string_debug : false;
