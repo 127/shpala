@@ -33,7 +33,7 @@ class BaseRecord {
 		$this->_prefix = self::$_prefix_di;
 		if($table==null){
 			//get_table name automatically
-			$this->_table = $this->_prefix.strtolower(substr(get_class($this), 0, -(strlen($this->_postfix)))).'s';
+			$this->_table = $this->_prefix.$this->_decamelize(substr(get_class($this), 0, -(strlen($this->_postfix)))).'s';
 		} else {
 			//set table name from consttructor param
 			$this->set_table($table);
@@ -344,6 +344,10 @@ class BaseRecord {
 		$this->_sql_string  = $string;
 		$this->_sql_binds	= is_array($params) ? $params : [$params];
 		$this->_cleanup();
+	}
+	
+	private function _decamelize(string $input){
+		return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
 	}
 }
 	
