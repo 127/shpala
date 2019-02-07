@@ -61,6 +61,14 @@ class BaseRecord {
 		return $this->_table;
 	}
 	
+	public function set_pkey(string $key){
+		$this->_pkey = $key;
+	}
+	
+	public function get_pkey(){
+		return $this->_pkey;
+	}
+	
 	public function set_table(string $table, bool $autoprefix=true){
 		$this->_table = ($autoprefix==true) ? $this->_prefix.$table : $table;
 	}
@@ -169,12 +177,20 @@ class BaseRecord {
 		$this->_sql_params['from'] = 'FROM '.($tables!==null ? implode(', ', $tables) : $this->_table);
 		return $this;
 	}
-	
-	public function includes(){
-		return $this;
-	}
 		
-	public function joins(){
+	public function joins($params, $type='INNER'){
+		if (is_string($params)) {
+			if(stristr($params, 'JOIN') === false){
+				$this->_sql_params['join'] = $type.' JOIN ';
+			}
+			$this->_sql_params['join'] .= $params;
+		}
+		if(is_array($params)){
+			foreach($params as $table){
+				$join_table = $this->_prefix.$table;
+				$this->_sql_params['join'] .= $type.' JOIN '.$join_table.' ON '.$this->_table.'.'.$this->_pkey.'='.$join_table.'.'.$this->_pkey; 
+			}
+		}
 		return $this;
 	}
 	
