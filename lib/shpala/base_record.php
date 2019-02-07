@@ -217,11 +217,15 @@ class BaseRecord {
 		return $this;
 	}
 	
+	public function or(){
+		return $this;
+	}
+	
 	public function where($params=null){
 		if(!isset($this->_sql_params['where']))
 			$this->_sql_params['where'] = 'WHERE ';
 		else
-			$this->_sql_params['where'] .= ' AND '; //shit hack
+			$this->_sql_params['where'] .= ' AND '; 
 		if(!isset($params))
 			return $this;
 		if (is_string($params))
