@@ -136,7 +136,7 @@ class BaseRecord {
 	public function find($params){
 		if(is_numeric($params))
 			$this->select()->where([$this->_pkey=>$params]);
-		if(is_array($params)){
+		if(is_array($params) && count($params)>0){
 			$this->select();
 			$s = [];
 			foreach($params as $v){
@@ -185,7 +185,7 @@ class BaseRecord {
 			}
 			$this->_sql_params['join'] .= $params;
 		}
-		if(is_array($params)){
+		if(is_array($params) && count($params)>0){
 			foreach($params as $table){
 				$join_table = $this->_prefix.$table;
 				$this->_sql_params['join'] .= $type.' JOIN '.$join_table.' ON '.$this->_table.'.'.$this->_pkey.'='.$join_table.'.'.$this->_pkey; 
@@ -194,20 +194,39 @@ class BaseRecord {
 		return $this;
 	}
 	
-	public function in($column, array $params){
-		$this->where($column.' IN ('.implode(', ', $params).')');
+	public function in(string $column, array $params){
+		if(count($params)>0){
+			foreach($params as $p){
+				$k   = $this->_get_alias();
+				$this->_sql_binds[$k] = $p;
+			}
+			$this->where($column.' IN ('.implode(', ', array_fill(1, count($params), '?')).')');
+		}
 		return $this;
 	}
 	
-	public function where($params){
+	public function not($column, array $params){
+		// if(count($params)>0){
+		// 	foreach($params as $p){
+		// 		$k   = $this->_get_alias();
+		// 		$this->_sql_binds[$k] = $p;
+		// 	}
+		// 	$this->where($column.' IN ('.implode(', ', array_fill(1, count($params), '?')).')');
+		// }
+		// $this->where($column.' NOT IN ('.implode(', ', $params).')');
+		return $this;
+	}
+	
+	public function where($params=null){
 		if(!isset($this->_sql_params['where']))
 			$this->_sql_params['where'] = 'WHERE ';
-		else 
+		else
 			$this->_sql_params['where'] .= ' AND '; //shit hack
-		if (is_string($params)) {
+		if(!isset($params))
+			return $this;
+		if (is_string($params))
 			$this->_sql_params['where'] .= $params;
-		}  
-		if(is_array($params)){
+		if(is_array($params) && count($params)>0){
 			if($this->_is_assoc($params)){
 				$this->_sql_params['where'] .=  implode(', ', array_map(function($c, $v){ 
 					$k = $this->_get_alias();
@@ -232,7 +251,7 @@ class BaseRecord {
 		$this->_sql_params['order'] = 'ORDER BY ';
 		if(is_string($params))
 			$this->_sql_params['order'] .= $params;
-		if(is_array($params)) {
+		if(is_array($params) && count($params)>0) {
 			$this->_sql_params['order'] .= implode(', ', array_map(function($k, $v){ 
 				$key = is_numeric($k) ? $v : $k;
 				$val = is_numeric($k) ? 'ASC' : $v;
@@ -246,7 +265,7 @@ class BaseRecord {
 		$this->_sql_params['group'] = 'GROUP BY ';
 		if(is_string($params))
 			$this->_sql_params['group'] .= $params;
-		if(is_array($params))
+		if(is_array($params) && count($params)>0)
 			$this->_sql_params['group'] .= implode(', ', $params);
 		return $this;
 	}
@@ -256,7 +275,7 @@ class BaseRecord {
 		$this->_sql_params['having'] = 'HAVING ';
 		if(is_string($params))
 			$this->_sql_params['having'] .= $params;
-		if(is_array($params)){
+		if(is_array($params) && count($params)>0){
 			$tpl = array_shift($params);
 			foreach($params as $p){
 				$k = $this->_get_alias();
