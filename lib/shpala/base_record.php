@@ -160,26 +160,15 @@ class BaseRecord {
 	}
 	
 	public function select($params=null){
-		switch ($params) {
-		    case null:
-		        $this->_sql_params['select'] = 'SELECT *';
-		        break;
-		    case is_string($params):
-		       	$this->_sql_params['select'] = 'SELECT ' . $params;
-		        break;
-		    case (is_array($params) && count($params)>0):
-		        $this->_sql_params['select'] = 'SELECT ' . implode(', ', $params);	
-		        break;
+		if($params===null){
+			$this->_sql_params['select'] = 'SELECT *';
 		}
-		// if($params===null){
-		// 	$this->_sql_params['select'] = 'SELECT *';
-		// }
-		// if(is_string($params)) {
-		// 	$this->_sql_params['select'] = 'SELECT ' . $params;
-		// }
-		// if(is_array($params) && count($params)>0) {
-		// 	$this->_sql_params['select'] = 'SELECT ' . implode(', ', $params);
-		// }
+		if(is_string($params)) {
+			$this->_sql_params['select'] = 'SELECT ' . $params;
+		}
+		if(is_array($params) && count($params)>0) {
+			$this->_sql_params['select'] = 'SELECT ' . implode(', ', $params);
+		}
 		return $this;
 	}
 	
@@ -232,16 +221,54 @@ class BaseRecord {
 		}
 		return $this;
 	}
-	
-	public function not($column, array $params){
-		// if(count($params)>0){
-		// 	foreach($params as $p){
-		// 		$k   = $this->_get_alias();
-		// 		$this->_sql_binds[$k] = $p;
-		// 	}
-		// 	$this->where($column.' IN ('.implode(', ', array_fill(1, count($params), '?')).')');
-		// }
-		// $this->where($column.' NOT IN ('.implode(', ', $params).')');
+
+
+	public function not($params){
+		//User.where.not("name = 'Jon'")
+		// # SELECT * FROM users WHERE NOT (name = 'Jon')
+		if(is_string($params)){
+			$this->where('NOT ('.$params.')');
+		}
+		if(is_array($params)){
+			$_cnt = count($params);
+			if($_cnt==1)
+				$column = (array_keys($params))[0];
+			// User.where.not(name: %w(Ko1 Nobu))
+			// # SELECT * FROM users WHERE name NOT IN ('Ko1', 'Nobu')
+			if($_cnt==1 && is_array($params[0])){
+				foreach($params[0] as $p){
+					$k   = $this->_get_alias();
+					$this->_sql_binds[$k] = $p;
+				}
+				$this->where($column.' NOT IN ('.implode(', ', array_fill(1, count($params[0]), '?')).')');	
+			}
+			
+			// User.where.not(name: nil)
+			// # SELECT * FROM users WHERE name IS NOT NULL
+			if($_cnt==1 && $params[0]==null){
+				$this->where($column.' IS NOT NULL');
+			}
+			
+			// User.where.not(name: "Jon")
+			// # SELECT * FROM users WHERE name != 'Jon'
+			if($_cnt==1 && $params[0]!=null){
+				$k   = $this->_get_alias();
+				$this->_sql_binds[$k] = $params[0];
+				$this->where($column.'!='.$k);
+			}
+			
+			// User.where.not(name: "Jon", role: "admin")
+			// # SELECT * FROM users WHERE name != 'Jon' AND role != 'admin'
+			if($_cnt>1){
+				$_scts = [];
+				foreach($param as $k=>$v){
+					$n   = $this->_get_alias();
+					$this->_sql_binds[$n] = $v;
+					$_scts[] = $k.'!='.$n;
+				}
+				$this->where(implode(' AND ', $_scts));	
+			}
+		}
 		return $this;
 	}
 	
