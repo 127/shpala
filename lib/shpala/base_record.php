@@ -213,11 +213,13 @@ class BaseRecord {
 	
 	public function in(string $column, array $params){
 		if(count($params)>0){
+			$_s=[];
 			foreach($params as $p){
 				$k   = $this->_get_alias();
 				$this->_sql_binds[$k] = $p;
+				$_s[] = $k; 
 			}
-			$this->where($column.' IN ('.implode(', ', array_fill(1, count($params), '?')).')');
+			$this->where($column.' IN ('.implode(', ', $_s).')');
 		}
 		return $this;
 	}
@@ -233,40 +235,44 @@ class BaseRecord {
 			$_cnt = count($params);
 			if($_cnt==1)
 				$column = (array_keys($params))[0];
+
 			// User.where.not(name: %w(Ko1 Nobu))
 			// # SELECT * FROM users WHERE name NOT IN ('Ko1', 'Nobu')
-			if($_cnt==1 && is_array($params[0])){
-				foreach($params[0] as $p){
+			if($_cnt==1 && is_array($params[$column])){
+				$_s=[];
+				foreach($params[$column] as $p){
+					print_r($p);
 					$k   = $this->_get_alias();
+					$_s[]=$k;
 					$this->_sql_binds[$k] = $p;
 				}
-				$this->where($column.' NOT IN ('.implode(', ', array_fill(1, count($params[0]), '?')).')');	
+				$this->where($column.' NOT IN ('.implode(', ', $_s).')');
 			}
 			
 			// User.where.not(name: nil)
 			// # SELECT * FROM users WHERE name IS NOT NULL
-			if($_cnt==1 && $params[0]==null){
+			if($_cnt==1 && $params[$column]==null){
 				$this->where($column.' IS NOT NULL');
 			}
 			
 			// User.where.not(name: "Jon")
 			// # SELECT * FROM users WHERE name != 'Jon'
-			if($_cnt==1 && $params[0]!=null){
+			if($_cnt==1 && !is_array($params[$column]) && $params[$column]!=null){
 				$k   = $this->_get_alias();
-				$this->_sql_binds[$k] = $params[0];
+				$this->_sql_binds[$k] = $params[$column];
 				$this->where($column.'!='.$k);
 			}
 			
 			// User.where.not(name: "Jon", role: "admin")
 			// # SELECT * FROM users WHERE name != 'Jon' AND role != 'admin'
 			if($_cnt>1){
-				$_scts = [];
-				foreach($param as $k=>$v){
+				$_s = [];
+				foreach($params as $k=>$v){
 					$n   = $this->_get_alias();
 					$this->_sql_binds[$n] = $v;
-					$_scts[] = $k.'!='.$n;
+					$_s[] = $k.'!='.$n;
 				}
-				$this->where(implode(' AND ', $_scts));	
+				$this->where(implode(' AND ', $_s));	
 			}
 		}
 		return $this;
