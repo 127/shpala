@@ -21,8 +21,10 @@ class Database {
 			$this->_dbc = mysqli_connect($config['host'].':'.$conf['port'], $config['username'], $config['password']) or die(mysqli_error());
 		} else {
 			try {
-				$this->_dbc = new PDO ("{$config['driver']}:host={$config['host']}:{$config['port']}", $config['username'], $config['password']);
-				$this->_dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$_srv = "{$config['driver']}:host={$config['host']}:{$config['port']}";
+				$this->_dbc = isset($config['options']) 
+							  ? new PDO ($_srv, $config['username'], $config['password'], $config['options']) 
+							  : new PDO ($_srv, $config['username'], $config['password']);
 				return $this->_dbc;
 			} catch (PDOException $e) {
             	die($e->getMessage());
