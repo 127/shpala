@@ -159,17 +159,45 @@ class BaseRecord {
 		return $this;
 	}
 	
-	public function select(array $columns=null){
-		$this->_sql_params['select'] = 'SELECT '.($columns!==null ? implode(', ', $columns) : '*');
+	public function select($params=null){
+		switch ($params) {
+		    case null:
+		        $this->_sql_params['select'] = 'SELECT *';
+		        break;
+		    case is_string($params):
+		       	$this->_sql_params['select'] = 'SELECT ' . $params;
+		        break;
+		    case (is_array($params) && count($params)>0):
+		        $this->_sql_params['select'] = 'SELECT ' . implode(', ', $params);	
+		        break;
+		}
+		// if($params===null){
+		// 	$this->_sql_params['select'] = 'SELECT *';
+		// }
+		// if(is_string($params)) {
+		// 	$this->_sql_params['select'] = 'SELECT ' . $params;
+		// }
+		// if(is_array($params) && count($params)>0) {
+		// 	$this->_sql_params['select'] = 'SELECT ' . implode(', ', $params);
+		// }
 		return $this;
 	}
 	
 	public function count(string $params){
-		$this->select('COUNT '.$params);
+		$this->select('COUNT('.$params.')');
 		return $this;
 	}
 	
 	public function distinct(){
+		if(isset($this->_sql_params['select'])){
+			if(stristr($this->_sql_params['select'], 'COUNT')){
+				$this->_sql_params['select'] = preg_replace('/^SELECT COUNT\((\w+)\)/', "SELECT COUNT(DISTINCT $1) ", $this->_sql_params['select']);
+			} else {
+				$this->_sql_params['select'] = str_replace('SELECT ', 'SELECT DISTINCT ', $this->_sql_params['select']);
+			}
+		} else {
+			
+		}
 		return $this;		
 	}
 	
