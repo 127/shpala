@@ -71,15 +71,15 @@ class Router {
 		$this->params['action'] = (isset($url[2]) && $url[2]!=false) ? $url[2] : $this->_default_action;
 		
 		//override with user config
-		foreach($this->resources as $resource=>$properties){
-			if(!is_array($properties))
+		foreach($this->resources as $props){
+			if(!is_array($props))
 				continue;
-			if(!isset($properties['path']))
+			if(!isset($props['path']))
 				continue;
-			if($this->params['controller']!=$properties['path'])
+			if($this->params['controller']!=$props['path'])
 				continue;
-			if(isset($properties['as'])){
-				$_l_ = explode($this->_sep_, $properties['as']);
+			if(isset($props['as'])){
+				$_l_ = explode($this->_sep_, $props['as']);
 				$this->params['controller'] = $_l_[0];
 				$this->params['action'] = $_l_[1];
 				break; 
