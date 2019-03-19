@@ -44,7 +44,8 @@ class Resource {
 								.$this->router->params['action']
 								.View::$extension;
 		if(!in_array($this->name, $this->router->resources))
-			$this->errors['no_resource_identified'] = true;
+			if(!isset($this->router->resources[$this->name]))
+				$this->errors['no_resource_identified'] = true;
 		if (!class_exists($this->router->controller_class))
 			$this->errors['controller_class_not_exists'] = true;
 		if (!method_exists($this->router->controller_class, $this->router->action_method))

@@ -9,6 +9,7 @@ class Router {
 	protected $_default_action = 'index';
 	protected $_controller_postfix = 'Controller';
 	protected $_action_postfix = 'Action';
+	protected $_sep_ = '#';
 	
     protected static $http = array(
         100 => 'HTTP/1.1 100 Continue',
@@ -54,17 +55,36 @@ class Router {
     );
 	
 	public function __construct(array &$config) {
-		if(!isset($config['root'])) die('Set app root controller and action!');
-		if(!isset($config['resources'])) die('No resources in app!');
+		if(!isset($config['root'])) 
+			die('Set app root controller and action!');
+		if(!isset($config['resources'])) 
+			die('No resources in app!');
+		
 		$this->resources = $config['resources'];
-			
-		$_l_ = explode('#', $config['root']);
+		$_l_ = explode($this->_sep_, $config['root']);
 		$this->_root_controller = $_l_[0];
-		$this->_root_action 	   = $_l_[1];
-
+		$this->_root_action = $_l_[1];
+		
+		//set up defaults by url
 		$url = explode('/', $_SERVER['REQUEST_URI']);
 		$this->params['controller'] = ($url[1]!=false) ? $url[1] : $this->_root_controller;
 		$this->params['action'] = (isset($url[2]) && $url[2]!=false) ? $url[2] : $this->_default_action;
+		
+		//override with user config
+		foreach($this->resources as $resource=>$properties){
+			if(!is_array($properties))
+				continue;
+			if(!isset($properties['path']))
+				continue;
+			if($this->params['controller']!=$properties['path'])
+				continue;
+			if(isset($properties['as'])){
+				$_l_ = explode($this->_sep_, $properties['as']);
+				$this->params['controller'] = $_l_[0];
+				$this->params['action'] = $_l_[1];
+				break; 
+			}
+		}
 		
 		$this->controller_class = ucfirst($this->params['controller']).$this->_controller_postfix;
 		$this->action_method = ucfirst($this->params['action']).$this->_action_postfix;
@@ -89,6 +109,5 @@ class Router {
 		if($num!=false) self::header($num);
 		header("Location: {$location}");
 	}
-	
 }
 ?>
