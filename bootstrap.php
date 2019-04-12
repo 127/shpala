@@ -3,7 +3,7 @@ $GLOBALS['APP_ENV'] = (false === getenv('APP_ENV') ? 'development' : getenv('APP
 $GLOBALS['APP_DIR'] = realpath(__DIR__);
 
 if($GLOBALS['APP_ENV'] != 'production'){
-	$_sig = '/\.(?:png|jpg|jpeg|gif|css|html|ico)$/';
+	$_sig = '/\.(?:png|jpg|jpeg|gif|css|html|htm|ico|js|webmanifest|txt)$/';
 	if(php_sapi_name() == 'cli-server' && preg_match($_sig, $_SERVER['REQUEST_URI'])) {
 		return false;
 	}
