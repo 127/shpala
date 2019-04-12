@@ -2,8 +2,8 @@
 class View {
 	public $resource;
 	public static $path = '/app/views/';
-	public static $extension = '.phtml';
-	public static $layout_file = 'layouts/application.phtml';
+	public static $extension = '.html.php';
+	public static $layout_file = 'layouts/application.html.php';
 	public static $public_path='/public/'; 
 	protected $view;
 	protected $_layout_path;
