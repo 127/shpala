@@ -8,7 +8,8 @@ spl_autoload_register(function($class_name){
 		'/app/views/',
 		'/app/jobs/',
 		'/app/helpers/',
-		'/lib/shpala/'	
+		'/lib/shpala/',
+		'/lib/shpala/cache/'
 	);
         
 	foreach($dirs as $dir){
