@@ -134,8 +134,9 @@ class BaseRecord {
 	}
 	
 	public function find($params){
-		if(is_numeric($params))
+		if(is_numeric($params)){
 			$this->select()->where([$this->_pkey=>$params]);
+		}
 		if(is_array($params) && count($params)>0){
 			$this->select();
 			$s = [];
@@ -172,8 +173,11 @@ class BaseRecord {
 		return $this;
 	}
 	
-	public function count(string $params){
-		$this->select('COUNT('.$params.')');
+	public function count(string $params, string $as=''){
+		if($as!=''){
+			$as = ' as '.$as;
+		} 
+		$this->select('COUNT('.$params.')'.$as);
 		return $this;
 	}
 	
@@ -233,15 +237,14 @@ class BaseRecord {
 		}
 		if(is_array($params)){
 			$_cnt = count($params);
-			if($_cnt==1)
+			if($_cnt==1){
 				$column = (array_keys($params))[0];
-
+			}
 			// User.where.not(name: %w(Ko1 Nobu))
 			// # SELECT * FROM users WHERE name NOT IN ('Ko1', 'Nobu')
 			if($_cnt==1 && is_array($params[$column])){
 				$_s=[];
 				foreach($params[$column] as $p){
-					print_r($p);
 					$k   = $this->_get_alias();
 					$_s[]=$k;
 					$this->_sql_binds[$k] = $p;
@@ -283,14 +286,17 @@ class BaseRecord {
 	}
 	
 	public function where($params=null){
-		if(!isset($this->_sql_params['where']))
+		if(!isset($this->_sql_params['where'])){
 			$this->_sql_params['where'] = 'WHERE ';
-		else
-			$this->_sql_params['where'] .= ' AND '; 
-		if(!isset($params))
+		} else {
+			$this->_sql_params['where'] .= ' AND ';  
+		}
+		if(!isset($params)) {
 			return $this;
-		if (is_string($params))
+		}
+		if (is_string($params)){
 			$this->_sql_params['where'] .= $params;
+		}
 		if(is_array($params) && count($params)>0){
 			if($this->_is_assoc($params)){
 				$this->_sql_params['where'] .=  implode(', ', array_map(function($c, $v){ 
@@ -314,8 +320,9 @@ class BaseRecord {
 	//PDO fails to pass symols on order
 	public function order($params){
 		$this->_sql_params['order'] = 'ORDER BY ';
-		if(is_string($params))
+		if(is_string($params)){
 			$this->_sql_params['order'] .= $params;
+		}
 		if(is_array($params) && count($params)>0) {
 			$this->_sql_params['order'] .= implode(', ', array_map(function($k, $v){ 
 				$key = is_numeric($k) ? $v : $k;
@@ -328,18 +335,21 @@ class BaseRecord {
 	
 	public function group($params){
 		$this->_sql_params['group'] = 'GROUP BY ';
-		if(is_string($params))
+		if(is_string($params)){
 			$this->_sql_params['group'] .= $params;
-		if(is_array($params) && count($params)>0)
+		}
+		if(is_array($params) && count($params)>0){
 			$this->_sql_params['group'] .= implode(', ', $params);
+		}
 		return $this;
 	}
 	
 	public function having($params){
 		// if(!isset($this->_sql_params['group']) check if order section isset
 		$this->_sql_params['having'] = 'HAVING ';
-		if(is_string($params))
+		if(is_string($params)){
 			$this->_sql_params['having'] .= $params;
+		}
 		if(is_array($params) && count($params)>0){
 			$tpl = array_shift($params);
 			foreach($params as $p){
@@ -367,10 +377,12 @@ class BaseRecord {
 	}
 	
 	public function run(){
-		if(count(array_intersect($this->_proirity[0], array_keys($this->_sql_params)))==0)
+		if(count(array_intersect($this->_proirity[0], array_keys($this->_sql_params)))==0){
 			$this->select();
-		if(!isset($this->_sql_params['from']) && !isset($this->_sql_params['update'])) 
+		}
+		if(!isset($this->_sql_params['from']) && !isset($this->_sql_params['update'])){
 			$this->from();
+		}
 		foreach($this->_proirity as $part){
 			foreach($part as $v){
 				if(isset($this->_sql_params[$v])){
@@ -382,10 +394,11 @@ class BaseRecord {
 			$stmnt = $this->_db->prepare($this->_sql_string);
 			$this->_bind_values($stmnt, $this->_sql_binds);
 			$stmnt->execute();
-			if(isset($this->_sql_params['update']) || isset($this->_sql_params['delete']))
+			if(isset($this->_sql_params['update']) || isset($this->_sql_params['delete'])){
 				$r = $stmnt->rowCount();	
-			else 
+			} else {
 				$r = $stmnt->fetchAll(PDO::FETCH_ASSOC);		
+			}
 			$this->_cleanup();
 			return $r;
 		} catch(PDOException $e) { 
@@ -396,8 +409,9 @@ class BaseRecord {
 	}
 	
 	private function _bind_values(PDOStatement &$stmnt, array $values){
-		if(count($values)==0) 
+		if(count($values)==0){
 			return $stmnt;
+		}
 		foreach($values as $k=>$v){
             switch( true ) {
                 case is_numeric($v):
@@ -422,8 +436,9 @@ class BaseRecord {
 	}
 	
 	private function _is_assoc(array $arr){
-	    if(array()===$arr) 
+	    if(array()===$arr){
 			return false;
+		}
 	    return array_keys($arr) !== range(0, count($arr) - 1);
 	}
 	

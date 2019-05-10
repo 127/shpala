@@ -8,5 +8,7 @@ class IndexController extends ApplicationController {
 		$this->view['model']= new SchemaMigrationModel();
 		$this->view['title'] = 'index action index controller';
 	}
+	
+	public function AnotherAction() {}
 }
 ?>

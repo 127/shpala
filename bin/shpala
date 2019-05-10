@@ -5,42 +5,49 @@ if (version_compare(PHP_VERSION, '5.6.30', '<')) { die ('Minimal requirements: P
 date_default_timezone_set('Europe/Moscow');
 $GLOBALS['APP_ENV'] = (false === getenv('APP_ENV') ? 'development' : getenv('APP_ENV') );
 $GLOBALS['APP_DIR'] = realpath(__DIR__.'/../');
-$GLOBALS['TASKS_DIR'] = $GLOBALS['APP_DIR'].'/lib/tasks/';
+$GLOBALS['TASKS_DIR']  = $GLOBALS['APP_DIR'].'/lib/tasks/';
+$GLOBALS['SHPALA_DIR'] = $GLOBALS['APP_DIR'].'/lib/shpala/';
 require_once $GLOBALS['APP_DIR'].'/lib/autoload.php';
 
 
-if(isset($argv[1]))
+if(isset($argv[1])){
 	$action = $argv[1];
+}
 
-$h = $f = $GLOBALS['TASKS_DIR'].'task_help.php';
+function _shpala_help($helptask){
+	if(file_exists($helptask)){
+		require_once $helptask;
+	}	
+}
+
+//default task is help
+$help = $GLOBALS['TASKS_DIR'].'task_help.php';
 if (!isset($action)){
-	if(file_exists($h))
-		require_once $h;
+	_shpala_help($help);
 } else {
 	if(preg_match("/db:/", $action) == 1) {
 		$els = explode(':', $action);
 		$last_el = array_pop($els);
-		$f = $GLOBALS['TASKS_DIR'].implode('/', $els).'/task_'.$last_el.'.php';
+		$task = $GLOBALS['TASKS_DIR'].implode('/', $els).'/task_'.$last_el.'.php';
 		
-		
-		if(file_exists($f)){
+		if(file_exists($task)){
 			$config = (require_once($GLOBALS['APP_DIR'].'/config/database.php'))[$GLOBALS['APP_ENV']];
 			$db = new Database(false, false);
 			$db->set_connect($config);
 			$connect = $db->get_connect();
 			$dbname  = ($db->get_config())['database'];
-			require_once $f;
+			require_once $task;
 		} else {
-			if(file_exists($h))
-				require_once $h;
+			_shpala_help($help);
 		}
 	} else {
-		$f = $GLOBALS['TASKS_DIR'].'task_'.$action.'.php';
-		if(file_exists($f))
-			require_once $f;
-	    else 
-			if(file_exists($h))
-				require_once $h;
+		$task = $GLOBALS['TASKS_DIR'].'task_'.$action.'.php';
+		if(file_exists($task)){
+			require_once $task;
+		} else {
+			_shpala_help($help);
+		}
 	}
 }
+exit(0);
 ?>

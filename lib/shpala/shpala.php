@@ -38,25 +38,39 @@ class Shpala {
 										$this->_i18n, 
 										$this->_helpers);
 										
-		if($this->_resource->validate_essentials() == false)
+		if($this->_resource->validate_resource() == false){
 			return $this->_errors_dispatcher();
+		}
 		
 		$this->_resource->build();
 		$this->_resource->run();
+	
+		$this->_resource->init_view();
 		
-		if($this->_resource->render_layout == true) {
-			if($this->_resource->validate_tpls() == false){
-				$this->_errors_dispatcher();
-			} else {
-				$this->_resource->output();
+		$_rl_ = $this->_resource->controller->get_render_layout(); //just ref
+		$_ra_ = $this->_resource->controller->get_render_action(); //just ref
+		if($_rl_==false && $_ra_==false){
+			return $this->_errors_dispatcher(['wtf'=>'To render what?']);
+		}
+		if($_rl_ == true) {
+			if($this->_resource->view->validate_layout() == false){
+				return $this->_errors_dispatcher($this->_resource->view->errors);
 			}
+			$this->_resource->view->render_layout();
+		}
+		if($_ra_ == true) {
+			if($this->_resource->view->validate_action() == false){
+				return $this->_errors_dispatcher($this->_resource->view->errors);
+			}
+			$this->_resource->view->render_action();
 		}
 
 	}
 	
-	private function _errors_dispatcher(){
+	private function _errors_dispatcher(array $errors=null){
 		if($GLOBALS['APP_ENV']!='production') {
-			print_r($this->_resource->errors);
+			$errors = isset($errors) ? $errors : $this->_resource->errors;
+			print_r($errors);
 		} else {
 			View::render_static('404.html', 404);
 		}	
