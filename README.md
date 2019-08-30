@@ -11,7 +11,7 @@
 
 ## Production Ubuntu 
 
-```sudo apt-get install php-fpm php-mysql```
+```sudo apt-get install nginx mysql-server php-fpm php-mysql```
 
 and
 

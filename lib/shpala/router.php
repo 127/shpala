@@ -240,6 +240,7 @@ class Router {
 			static::header($num);
 		}
 		header("Location: {$location}");
+    exit(0);
 	}
 }
 ?>

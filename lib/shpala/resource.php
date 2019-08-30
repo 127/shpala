@@ -16,9 +16,11 @@ class Resource {
 	public function __construct(Router &$router, 
 								PDO &$connect=null, 
 								i18n &$translate=null,
-								BaseHelpers &$helpers=null){
+								BaseHelpers &$helpers=null,
+                Config &$config=null){
 		$this->name   = $router->current_resource;
 		$this->router = $router;
+    $this->config = $config;
 		if(isset($translate)) {
 			$this->i18n = $translate;
 		}

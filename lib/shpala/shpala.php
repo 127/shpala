@@ -36,7 +36,8 @@ class Shpala {
 		$this->_resource = new Resource($this->_router, 
 										$this->_connect, 
 										$this->_i18n, 
-										$this->_helpers);
+										$this->_helpers,
+                    $this->_config);
 										
 		if($this->_resource->validate_resource() == false){
 			return $this->_errors_dispatcher();
