@@ -299,7 +299,7 @@ class BaseRecord {
 		}
 		if(is_array($params) && count($params)>0){
 			if($this->_is_assoc($params)){
-				$this->_sql_params['where'] .=  implode(', ', array_map(function($c, $v){ 
+				$this->_sql_params['where'] .=  implode(' AND ', array_map(function($c, $v){ 
 					$k = $this->_get_alias();
 					$this->_sql_binds[$k] = $v;
 					return $c.'='.$k; 

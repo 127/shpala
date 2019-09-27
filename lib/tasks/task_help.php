@@ -7,3 +7,4 @@ In addition to those commands, there are:
 	db:seed
 	db:setup
 	db:version
+  db:structure:load
