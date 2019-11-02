@@ -1,7 +1,7 @@
 <?php
 //TODO
 class Shpala {
-	public 	  $version = '1.1.2';
+	public 	  $version = '1.1.3';
 	protected $_config = [];
 	protected $_i18n = [];
 	protected $_router;
@@ -59,7 +59,7 @@ class Shpala {
 			}
 			$this->_resource->view->render_layout();
 		}
-		if($_ra_ == true) {
+		if($_rl_==false && $_ra_==true) {
 			if($this->_resource->view->validate_action() == false){
 				return $this->_errors_dispatcher($this->_resource->view->errors);
 			}
