@@ -69,7 +69,8 @@ class Router {
 		static::set_root_action($_l_[1]);
 		
 		//set up defaults by url
-		$request = $_SERVER['REQUEST_URI'];
+    $_params_pos = strpos($_SERVER['REQUEST_URI'], '?');
+    $request = !$_params_pos ? $_SERVER['REQUEST_URI'] : substr($_SERVER['REQUEST_URI'], 0, $_params_pos);
 		$url = explode('/', $request);
 		$this->params['controller'] = ($url[1]!=false) ? $url[1] : static::get_root_controller();
 		$this->params['action'] = (isset($url[2]) && $url[2]!=false) ? $url[2] : static::get_default_action();

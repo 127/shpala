@@ -1,7 +1,7 @@
 <?php
 //TODO
 class Shpala {
-	public 	  $version = '1.1.3';
+	public 	  $version = '1.1.4';
 	protected $_config = [];
 	protected $_i18n = [];
 	protected $_router;
