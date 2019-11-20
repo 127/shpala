@@ -26,7 +26,7 @@ class SitemapController extends ApplicationController {
 	}
 	
 	public function ModuleAction() {
-		$this->view['quantity'] = $this->_h->_quantity;
+		$this->view['quantity'] = 50;
 		$_c = str_replace('_sitemap.xml', '', trim($_SERVER['REQUEST_URI'], '/'));
 		$this->view['controller'] = $_c;
 		$_a = Router::get_controller_actions($_c);
