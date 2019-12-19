@@ -33,6 +33,13 @@ $db = new Database(false, false);
 $db->set_connect($cnf->config['database']);
 $connect = $db->get_connect();
 $dbname  = $cnf->config['database']['database'];
+
+//Minimal setup to use BaseRecord
+BaseRecord::$_db_di = $connect;
+if(isset($cnf->config['database']['tables_prefix'])) {
+  BaseRecord::$_prefix_di = $cnf->config['database']['tables_prefix'];
+}
+
 require_once $task;
 exit(0);
 ?>

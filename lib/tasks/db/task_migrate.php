@@ -1,3 +1,3 @@
 <?php
-echo "TASK MIGRATE NOT AVAILABLE\n";
+echo "TASK MIGRATE NOT IMPLEMENTED\n";
 ?>

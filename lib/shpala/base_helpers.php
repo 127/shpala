@@ -1,5 +1,3 @@
 <?php
-class BaseHelpers  {
-	
-}
+class BaseHelpers  {}
 ?>
