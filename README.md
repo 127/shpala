@@ -2,6 +2,7 @@
 
 ## Requirements
 
+- nginx/apache, whatever
 - mysql 
 - php 5.6.30 >
 
